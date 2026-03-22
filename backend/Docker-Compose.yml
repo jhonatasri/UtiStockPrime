@@ -10,3 +10,8 @@ services:
       - DATABASE_URL={DATABASE_URL}
     ports:
       - "3333:3333"
+
+    labels:
+      - app.required_env=SECRET,DATABASE_URL
+      - app.env.SECRET=Chave secreta da aplicação
+      - app.env.DATABASE_URL=String de conexão com banco
