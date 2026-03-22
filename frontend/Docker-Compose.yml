@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  frontend_stock:
+    container_name: frontend_stock
+    build: .
+    platform: linux/amd64 
+   
+    ports:
+      - "3000:3000"
