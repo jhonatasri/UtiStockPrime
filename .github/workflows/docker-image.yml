@@ -29,21 +29,21 @@ jobs:
       # =========================
       # BACKEND
       # =========================
-      - name: 🏗️ Build backend ${{ secrets.REGISTRY_URL }}
+      - name: 🏗️ Build backend
         run: |
-          docker build -t ${{ secrets.REGISTRY_URL }}/backend_stock:latest ./backend
+          docker build -t ${{ secrets.REGISTRY_IP }}/backend_stock:latest ./backend
 
       - name: 📤 Push backend
         run: |
-          docker push ${{ secrets.REGISTRY_URL }}/backend_stock:latest
+          docker push ${{ secrets.REGISTRY_IP }}/backend_stock:latest
 
       # =========================
       # FRONTEND
       # =========================
       - name: 🏗️ Build frontend
         run: |
-          docker build -t ${{ secrets.REGISTRY_URL }}/frontend_stock:latest ./frontend
+          docker build -t ${{ secrets.REGISTRY_IP }}/frontend_stock:latest ./frontend
 
       - name: 📤 Push frontend
         run: |
-          docker push ${{ secrets.REGISTRY_URL }}/frontend_stock:latest
+          docker push ${{ secrets.REGISTRY_IP }}/frontend_stock:latest
