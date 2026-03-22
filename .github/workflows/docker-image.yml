@@ -1,24 +1,17 @@
-name: Constroi a imagem e sobe no registry
+name: Build e push das imagens (simples)
 
 on:
   push:
     branches:
-      - main
-      - develop
-      - homolog
       - "*"
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout do código
+      - name: 📥 Checkout
         uses: actions/checkout@v4
-
-      - name: 🏷️ Definir variáveis
-        run: |
-          echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
-          echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
       - name: ⚙️ Configurar insecure registry
         run: |
@@ -28,7 +21,7 @@ jobs:
 
           sudo systemctl restart docker
 
-      - name: � Login no Registry
+      - name: 🔐 Login no registry
         run: |
           echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ secrets.REGISTRY_URL }} \
             -u "${{ secrets.REGISTRY_USER }}" --password-stdin
@@ -38,31 +31,19 @@ jobs:
       # =========================
       - name: 🏗️ Build backend
         run: |
-          docker build -t ${{ secrets.REGISTRY_URL }}/backend_stock:${{ env.BRANCH_NAME }}-${{ env.IMAGE_TAG }} ./backend
+          docker build -t ${{ secrets.REGISTRY_URL }}/backend_stock:latest ./backend
 
       - name: 📤 Push backend
         run: |
-          docker push ${{ secrets.REGISTRY_URL }}/backend_stock:${{ env.BRANCH_NAME }}-${{ env.IMAGE_TAG }}
+          docker push ${{ secrets.REGISTRY_URL }}/backend_stock:latest
 
       # =========================
       # FRONTEND
       # =========================
       - name: 🏗️ Build frontend
         run: |
-          docker build -t ${{ secrets.REGISTRY_URL }}/frontend_stock:${{ env.BRANCH_NAME }}-${{ env.IMAGE_TAG }} ./frontend
+          docker build -t ${{ secrets.REGISTRY_URL }}/frontend_stock:latest ./frontend
 
       - name: 📤 Push frontend
         run: |
-          docker push ${{ secrets.REGISTRY_URL }}/frontend_stock:${{ env.BRANCH_NAME }}-${{ env.IMAGE_TAG }}
-
-      # =========================
-      # TAG LATEST (opcional)
-      # =========================
-      - name: 🔁 Tag latest (main apenas)
-        if: env.BRANCH_NAME == 'main'
-        run: |
-          docker tag ${{ secrets.REGISTRY_URL }}/backend_stock:${{ env.BRANCH_NAME }}-${{ env.IMAGE_TAG }} ${{ secrets.REGISTRY_URL }}/backend:latest
-          docker tag ${{ secrets.REGISTRY_URL }}/frontend_stock:${{ env.BRANCH_NAME }}-${{ env.IMAGE_TAG }} ${{ secrets.REGISTRY_URL }}/frontend:latest
-
-          docker push ${{ secrets.REGISTRY_URL }}/backend:latest
-          docker push ${{ secrets.REGISTRY_URL }}/frontend:latest
+          docker push ${{ secrets.REGISTRY_URL }}/frontend_stock:latest
