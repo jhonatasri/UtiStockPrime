@@ -103,6 +103,11 @@
           "Usuários"
         ],
         "description": "Busca todos os usuários do sistema",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Default Response",
@@ -201,6 +206,11 @@
           },
           "required": true
         },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "201": {
             "description": "Default Response",
@@ -218,6 +228,87 @@
       }
     },
     "/usuario/{id}": {
+      "put": {
+        "operationId": "alteraUsuario",
+        "tags": [
+          "Usuários"
+        ],
+        "description": "Altera os dados de um usuário (exceto senha)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                  },
+                  "telefone": {
+                    "type": "string"
+                  },
+                  "funcao": {
+                    "type": "string",
+                    "enum": [
+                      "ADMINISTRADOR",
+                      "GESTOR",
+                      "COORDENADOR_BAR",
+                      "COORDENADOR_ESTOQUE"
+                    ]
+                  },
+                  "ativo": {
+                    "type": "boolean"
+                  },
+                  "descricao": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "nome",
+                  "email",
+                  "telefone",
+                  "funcao",
+                  "ativo"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
       "get": {
         "operationId": "listaUsuario",
         "tags": [
@@ -232,6 +323,11 @@
             "in": "path",
             "name": "id",
             "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
           }
         ],
         "responses": {
@@ -272,6 +368,233 @@
                     "funcao"
                   ],
                   "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rotas": {
+      "get": {
+        "operationId": "listaRotas",
+        "tags": [
+          "Rotas"
+        ],
+        "description": "Busca todas as rotas cadastradas",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "rota": {
+                        "type": "string"
+                      },
+                      "titulo": {
+                        "type": "string"
+                      },
+                      "descricao": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "logo": {
+                        "type": "string"
+                      },
+                      "modulo": {
+                        "type": "string",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "rota",
+                      "titulo",
+                      "logo"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rotas-usuarios": {
+      "post": {
+        "operationId": "cadastrarRotaUsuario",
+        "tags": [
+          "Rotas Usuários"
+        ],
+        "description": "Cadastra uma rota para um usuário",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rotasId": {
+                    "type": "number"
+                  },
+                  "usuariosId": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "rotasId",
+                  "usuariosId"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "rotasId": {
+                      "type": "number"
+                    },
+                    "usuariosId": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "rotasId",
+                    "usuariosId"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rotas-usuarios/{id}": {
+      "delete": {
+        "operationId": "removeRotaUsuario",
+        "tags": [
+          "Rotas Usuários"
+        ],
+        "description": "Remove a permissão de acesso de um usuário a uma rota",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "listaRotasPorUsuario",
+        "tags": [
+          "Rotas Usuários"
+        ],
+        "description": "Busca todas as rotas que um usuário tem acesso pelo ID",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "rota": {
+                        "type": "string"
+                      },
+                      "titulo": {
+                        "type": "string"
+                      },
+                      "descricao": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "logo": {
+                        "type": "string"
+                      },
+                      "modulo": {
+                        "type": "string",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "rota",
+                      "titulo",
+                      "logo"
+                    ],
+                    "additionalProperties": false
+                  }
                 }
               }
             }

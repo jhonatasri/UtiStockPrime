@@ -23,14 +23,39 @@ enum FuncaoTypes {
 }
 
 model Usuarios {
-  id        Int         @id @default(autoincrement())
-  nome      String
-  email     String      @unique
-  ativo     Boolean     @default(true)
-  senha     String
-  telefone  String
-  funcao    FuncaoTypes
-  descricao String?
+  id            Int             @id @default(autoincrement())
+  nome          String
+  email         String          @unique
+  ativo         Boolean         @default(true)
+  senha         String
+  telefone      String
+  funcao        FuncaoTypes
+  descricao     String?
+  rotasUsuarios RotasUsuarios[]
 
   @@map("usuarios")
+}
+
+model Rotas {
+  id            Int             @id @default(autoincrement())
+  rota          String
+  titulo        String
+  descricao     String?
+  logo          String
+  modulo        String?
+  rotasUsuarios RotasUsuarios[]
+
+  @@map("rotas")
+}
+
+model RotasUsuarios {
+  id Int @id @default(autoincrement())
+
+  idRota  Rotas @relation(fields: [rotasId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  rotasId Int
+
+  usuarioId  Usuarios @relation(fields: [usuariosId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  usuariosId Int
+
+  @@map("rotasUsuarios")
 }

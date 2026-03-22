@@ -11,6 +11,7 @@ export const usuariosController: FastifyPluginAsyncZod = async (app) => {
         description: "Busca todos os usuários do sistema",
         tags: ["Usuários"],
         operationId: "listaUsuarios",
+        security: [{ BearerAuth: [] }],
         response: {
           200: z.array(
             z.object({
@@ -43,6 +44,7 @@ export const usuariosController: FastifyPluginAsyncZod = async (app) => {
         description: "Cria um usuário para o sistema",
         tags: ["Usuários"],
         operationId: "criaUsuario",
+        security: [{ BearerAuth: [] }],
         body: z.object({
           nome: z.string(),
           email: z.email(),
@@ -77,6 +79,43 @@ export const usuariosController: FastifyPluginAsyncZod = async (app) => {
       return res.status(201).send({});
     }
   );
+  app.put(
+    "/usuario/:id",
+    {
+      schema: {
+        description: "Altera os dados de um usuário (exceto senha)",
+        tags: ["Usuários"],
+        operationId: "alteraUsuario",
+        security: [{ BearerAuth: [] }],
+        params: z.object({
+          id: z.coerce.number(),
+        }),
+        body: z.object({
+          nome: z.string(),
+          email: z.email(),
+          telefone: z.string(),
+          funcao: z.enum(FuncaoTypes),
+          ativo: z.boolean(),
+          descricao: z.string().optional(),
+        }),
+        response: {
+          200: z.object({}),
+        },
+      },
+    },
+    async (req, res) => {
+      const { id } = req.params;
+      const { nome, email, telefone, funcao, ativo, descricao } = req.body;
+
+      await prisma.usuarios.update({
+        where: { id },
+        data: { nome, email, telefone, funcao, ativo, descricao },
+      });
+
+      return res.status(204).send({});
+    }
+  );
+
   app.get(
     "/usuario/:id",
     {
@@ -84,6 +123,7 @@ export const usuariosController: FastifyPluginAsyncZod = async (app) => {
         description: "Busca um usuário no sistema",
         tags: ["Usuários"],
         operationId: "listaUsuario",
+        security: [{ BearerAuth: [] }],
         params: z.object({
           id: z.coerce.number(),
         }),
