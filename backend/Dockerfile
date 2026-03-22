@@ -9,6 +9,11 @@ COPY *.json .
 
 RUN yarn
 
+# --- Labels custom (documentação de env) ---
+LABEL app.required_env="SECRET,DATABASE_URL" \
+  app.env.SECRET="Chave secreta da aplicação" \
+  app.env.DATABASE_URL="String de conexão com banco"
+
 COPY . .
 
 COPY ./public /app/dist/public
