@@ -12,7 +12,6 @@ import {
   serializerCompiler,
 } from "fastify-type-provider-zod";
 import path from "path";
-import { networkInterfaces } from "os";
 import { routes } from "./router";
 import fastifyBcrypt from "fastify-bcrypt";
 import { authController } from "./controllers/authController";
