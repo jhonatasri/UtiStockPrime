@@ -29,7 +29,7 @@ jobs:
       # =========================
       # BACKEND
       # =========================
-      - name: 🏗️ Build backend
+      - name: 🏗️ Build backend ${{ secrets.REGISTRY_URL }}
         run: |
           docker build -t ${{ secrets.REGISTRY_URL }}/backend_stock:latest ./backend
 
