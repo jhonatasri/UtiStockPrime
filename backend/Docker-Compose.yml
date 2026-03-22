@@ -1,20 +1,12 @@
 version: '3'
 
 services:
-  api-chef:
-    container_name: API-Chef
+  api-stock:
+    container_name: api-stock
     build: .
     platform: linux/amd64 
     environment:
-      - cronitor_api_key={cronitor_api_key}
-      - cnpj_registro={cnpj_registro}
-      - url_api_painel={url_api_painel}
       - SECRET={SECRET}
-      - HOST_EMAIL={HOST_EMAIL}
-      - HOST_API_WINTHOR={HOST_API_WINTHOR}
-      - HOSTDB_SERVER={HOSTDB_SERVER}
-      - USERDB={USERDB}
-      - PASSWORDDB={PASSWORDDB}
-      - DATABASE={DATABASE}
+      - DATABASE_URL={DATABASE_URL}
     ports:
       - "3333:3333"

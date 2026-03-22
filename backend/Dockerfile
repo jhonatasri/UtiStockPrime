@@ -1,4 +1,4 @@
-FROM node:20.11.0
+FROM node:24.14.0
 
 # Instalação de dependências
 RUN apt-get update && apt-get install -y libaio1 wget unzip libnss3 libatk1.0-0
