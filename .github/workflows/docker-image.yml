@@ -7,7 +7,6 @@ on:
       - develop
       - homolog
       - "*"
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -21,7 +20,15 @@ jobs:
           echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
           echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
-      - name: 🔐 Login no Registry
+      - name: ⚙️ Configurar insecure registry
+        run: |
+          echo '{
+            "insecure-registries": ["'${{ secrets.REGISTRY_URL }}'"]
+          }' | sudo tee /etc/docker/daemon.json
+
+          sudo systemctl restart docker
+
+      - name: � Login no Registry
         run: |
           echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ secrets.REGISTRY_URL }} \
             -u "${{ secrets.REGISTRY_USER }}" --password-stdin
