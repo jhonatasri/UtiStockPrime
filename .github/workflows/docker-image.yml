@@ -3,7 +3,7 @@ name: Build e push das imagens (simples)
 on:
   push:
     branches:
-      - "*"
+      - "main"
 
 jobs:
   build-and-push:
@@ -47,3 +47,12 @@ jobs:
       - name: 📤 Push frontend
         run: |
           docker push ${{ secrets.REGISTRY_IP }}/frontend_stock:latest
+
+      - name: 📤 Notificação via n8n
+        run: |
+          curl -X POST https://n8n.utivirtual.com.br/webhook/2d746e0b-94c6-4a2a-8672-ddba90bada33 \
+          -H "Content-Type: application/json" \
+          -d '{
+            "title": "Atualização UtiStockPrime",
+            "mensagem": "Nova versão disponível da UtiStockPrime - build:${{ github.run_number }}"
+          }'

@@ -18,7 +18,7 @@ COPY . .
 
 COPY ./public /app/dist/public
 
-# RUN yarn build
+RUN yarn build
 
 EXPOSE 3333
 
