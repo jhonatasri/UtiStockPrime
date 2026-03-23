@@ -16,6 +16,8 @@ LABEL app.required_env="SECRET,DATABASE_URL" \
 
 COPY . .
 
+RUN npx prisma generate
+
 COPY ./public /app/dist/public
 
 RUN yarn build

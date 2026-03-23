@@ -112,7 +112,7 @@ export const usuariosController: FastifyPluginAsyncZod = async (app) => {
         data: { nome, email, telefone, funcao, ativo, descricao },
       });
 
-      return res.status(204).send({});
+      return res.status(200).send({});
     }
   );
 
