@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { usuariosController } from "./controllers/usuariosController";
 import { rotasController } from "./controllers/rotasController";
 import { rotasUsuariosController } from "./controllers/rotasUsuariosController";
+import { eventosController } from "./controllers/eventosController";
 
 export async function routes(app: FastifyInstance) {
   app.addHook("onRequest", async (req, res) => {
@@ -14,4 +15,5 @@ export async function routes(app: FastifyInstance) {
   app.register(usuariosController);
   app.register(rotasController);
   app.register(rotasUsuariosController);
+  app.register(eventosController);
 }

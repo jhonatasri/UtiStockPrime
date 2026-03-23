@@ -601,6 +601,353 @@
           }
         }
       }
+    },
+    "/eventos": {
+      "get": {
+        "operationId": "listaEventos",
+        "tags": [
+          "Eventos"
+        ],
+        "description": "Busca todos os eventos do sistema",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "nome": {
+                        "type": "string"
+                      },
+                      "descricao": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "data": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "local": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "ativo": {
+                        "type": "boolean"
+                      },
+                      "categoria": {
+                        "type": "string"
+                      },
+                      "responsavelNome": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "responsavelTelefone": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "responsavelEmail": {
+                        "type": "string",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "nome",
+                      "ativo",
+                      "categoria"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "criaEvento",
+        "tags": [
+          "Eventos"
+        ],
+        "description": "Cria um evento no sistema",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "descricao": {
+                    "type": "string"
+                  },
+                  "data": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                  },
+                  "local": {
+                    "type": "string"
+                  },
+                  "categoria": {
+                    "type": "string",
+                    "enum": [
+                      "SHOW",
+                      "FESTIVAL",
+                      "CORPORATIVO",
+                      "PRIVADO"
+                    ]
+                  },
+                  "ativo": {
+                    "default": true,
+                    "type": "boolean"
+                  },
+                  "responsavelNome": {
+                    "type": "string"
+                  },
+                  "responsavelTelefone": {
+                    "type": "string"
+                  },
+                  "responsavelEmail": {
+                    "type": "string"
+                  },
+                  "usuariosIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "required": [
+                  "nome",
+                  "categoria"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evento/{id}": {
+      "put": {
+        "operationId": "alteraEvento",
+        "tags": [
+          "Eventos"
+        ],
+        "description": "Altera os dados de um evento",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "descricao": {
+                    "type": "string"
+                  },
+                  "data": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                  },
+                  "local": {
+                    "type": "string"
+                  },
+                  "categoria": {
+                    "type": "string",
+                    "enum": [
+                      "SHOW",
+                      "FESTIVAL",
+                      "CORPORATIVO",
+                      "PRIVADO"
+                    ]
+                  },
+                  "ativo": {
+                    "type": "boolean"
+                  },
+                  "responsavelNome": {
+                    "type": "string"
+                  },
+                  "responsavelTelefone": {
+                    "type": "string"
+                  },
+                  "responsavelEmail": {
+                    "type": "string"
+                  },
+                  "usuariosIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "required": [
+                  "nome",
+                  "categoria",
+                  "ativo"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "listaEvento",
+        "tags": [
+          "Eventos"
+        ],
+        "description": "Busca um evento no sistema",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "descricao": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "data": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "local": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "categoria": {
+                      "type": "string"
+                    },
+                    "responsavelNome": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "responsavelTelefone": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "responsavelEmail": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "usuariosIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "nome",
+                    "ativo",
+                    "categoria",
+                    "usuariosIds"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "servers": [

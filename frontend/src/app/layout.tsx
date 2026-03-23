@@ -3,6 +3,7 @@ import "./globals.css";
 import { ReactQueryProvider } from "../providers/reactQuery";
 import { AuthProvider } from "@/src/providers/AuthContext";
 import { Toaster } from "sonner";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -23,12 +24,14 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${inter.variable} antialiased`}>
       <body>
-        <ReactQueryProvider>
-          <AuthProvider>
-            {children}
-            <Toaster richColors position="top-right" />
-          </AuthProvider>
-        </ReactQueryProvider>
+        <NuqsAdapter>
+          <ReactQueryProvider>
+            <AuthProvider>
+              {children}
+              <Toaster richColors position="top-right" />
+            </AuthProvider>
+          </ReactQueryProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

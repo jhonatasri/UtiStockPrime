@@ -120,3 +120,81 @@ export type ListaRotasPorUsuario200Item = {
   modulo?: string | null;
 };
 
+export type CategoriaEvento = typeof CategoriaEvento[keyof typeof CategoriaEvento];
+
+export const CategoriaEvento = {
+  SHOW: 'SHOW',
+  FESTIVAL: 'FESTIVAL',
+  CORPORATIVO: 'CORPORATIVO',
+  PRIVADO: 'PRIVADO',
+} as const;
+
+export type ListaEventos200Item = {
+  id: number;
+  nome: string;
+  /** @nullable */
+  descricao?: string | null;
+  /** @nullable */
+  data?: string | null;
+  /** @nullable */
+  local?: string | null;
+  ativo: boolean;
+  categoria: string;
+  /** @nullable */
+  responsavelNome?: string | null;
+  /** @nullable */
+  responsavelTelefone?: string | null;
+  /** @nullable */
+  responsavelEmail?: string | null;
+};
+
+export type CriaEventoBody = {
+  nome: string;
+  descricao?: string;
+  data?: string;
+  local?: string;
+  categoria: CategoriaEvento;
+  ativo?: boolean;
+  responsavelNome?: string;
+  responsavelTelefone?: string;
+  responsavelEmail?: string;
+  usuariosIds?: number[];
+};
+
+export type CriaEvento201 = { id: number };
+
+export type AlteraEventoBody = {
+  nome: string;
+  descricao?: string;
+  data?: string;
+  local?: string;
+  categoria: CategoriaEvento;
+  ativo: boolean;
+  responsavelNome?: string;
+  responsavelTelefone?: string;
+  responsavelEmail?: string;
+  usuariosIds?: number[];
+};
+
+export type AlteraEvento200 = { [key: string]: unknown };
+
+export type ListaEvento200 = {
+  id: number;
+  nome: string;
+  /** @nullable */
+  descricao?: string | null;
+  /** @nullable */
+  data?: string | null;
+  /** @nullable */
+  local?: string | null;
+  ativo: boolean;
+  categoria: string;
+  /** @nullable */
+  responsavelNome?: string | null;
+  /** @nullable */
+  responsavelTelefone?: string | null;
+  /** @nullable */
+  responsavelEmail?: string | null;
+  usuariosIds: number[];
+};
+

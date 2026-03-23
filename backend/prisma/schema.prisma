@@ -31,7 +31,8 @@ model Usuarios {
   telefone      String
   funcao        FuncaoTypes
   descricao     String?
-  rotasUsuarios RotasUsuarios[]
+  rotasUsuarios   RotasUsuarios[]
+  eventosUsuarios EventosUsuarios[]
 
   @@map("usuarios")
 }
@@ -58,4 +59,31 @@ model RotasUsuarios {
   usuariosId Int
 
   @@map("rotasUsuarios")
+}
+
+model Eventos {
+  id                  Int               @id @default(autoincrement())
+  nome                String
+  descricao           String?
+  data                DateTime?
+  local               String?
+  ativo               Boolean           @default(true)
+  categoria           String
+  responsavelNome     String?
+  responsavelTelefone String?
+  responsavelEmail    String?
+  usuarios            EventosUsuarios[]
+
+  @@map("eventos")
+}
+
+model EventosUsuarios {
+  id         Int      @id @default(autoincrement())
+  eventoId   Int
+  usuariosId Int
+
+  evento   Eventos  @relation(fields: [eventoId], references: [id], onDelete: Cascade)
+  usuario  Usuarios @relation(fields: [usuariosId], references: [id], onDelete: Cascade)
+
+  @@map("eventosUsuarios")
 }

@@ -1,16 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { CardsComponents } from "@/src/components/cards";
 import { NovoUsuarioModal } from "@/src/components/usuarios/novo-usuario-modal";
 import { DetalheUsuarioModal } from "@/src/components/usuarios/detalhe-usuario-modal";
 import { EditaUsuarioModal } from "@/src/components/usuarios/edita-usuario-modal";
 import {
   FiAlertCircle,
+  FiChevronDown,
   FiEdit,
   FiEye,
   FiLock,
   FiMoreHorizontal,
+  FiSearch,
   FiUserCheck,
   FiUsers,
   FiUserX
@@ -35,6 +37,18 @@ export default function Usuarios() {
   const { data } = useListaUsuarios();
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [editId, setEditId] = useState<number | null>(null);
+  const [filterNome, setFilterNome] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
+
+  const filteredData = useMemo(() => {
+    return (data || []).filter(usuario => {
+      const matchNome = !filterNome || usuario.nome?.toLowerCase().includes(filterNome.toLowerCase());
+      const matchStatus =
+        !filterStatus ||
+        (filterStatus === 'ativo' ? usuario.ativo === true : usuario.ativo === false);
+      return matchNome && matchStatus;
+    });
+  }, [data, filterNome, filterStatus]);
 
   const columns: ColumnDef<ListaUsuarios200Item>[] = [
     {
@@ -132,11 +146,43 @@ export default function Usuarios() {
         <NovoUsuarioModal />
       </section>
 
+      {/* FILTROS */}
+      <div className="mt-4 flex flex-col sm:flex-row gap-3">
+        {/* Filtro por nome */}
+        <div className="flex flex-1 items-center gap-2 bg-white rounded-md border border-gray-200 px-3">
+          <FiSearch size={16} className="shrink-0 text-gray-500" />
+          <input
+            type="text"
+            placeholder="Buscar por nome do usuário"
+            value={filterNome}
+            onChange={e => setFilterNome(e.target.value)}
+            className="flex-1 py-2 text-base bg-transparent outline-none placeholder:text-gray-500"
+          />
+        </div>
+
+        {/* Filtro por status */}
+        <div className="relative">
+          <select
+            value={filterStatus}
+            onChange={e => setFilterStatus(e.target.value)}
+            className="appearance-none h-10 w-48 rounded-md bg-white border border-gray-200 px-3 pr-8 text-sm font-medium text-gray-800 cursor-pointer outline-none"
+          >
+            <option value="">Todos os status</option>
+            <option value="ativo">Ativo</option>
+            <option value="inativo">Inativo</option>
+          </select>
+          <FiChevronDown
+            size={16}
+            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 opacity-50"
+          />
+        </div>
+      </div>
+
       {/* TABELA */}
       <div className="mt-5 w-full overflow-x-auto">
         <DataTable
           columns={columns}
-          data={data || []}
+          data={filteredData}
           filtro={[]}
         />
       </div>
