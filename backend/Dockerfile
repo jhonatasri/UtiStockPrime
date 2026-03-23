@@ -16,7 +16,7 @@ LABEL app.required_env="SECRET,DATABASE_URL" \
 
 COPY . .
 
-RUN npx prisma generate
+RUN DATABASE_URL=dummy npx prisma generate
 
 COPY ./public /app/dist/public
 
