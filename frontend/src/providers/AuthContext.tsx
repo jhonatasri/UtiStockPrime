@@ -73,9 +73,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   // Função para realizar o logout
   const signOut = () => {
-    destroyCookie(undefined, 'nextauth.token');
-    parseCookies()
-
+    destroyCookie(undefined, 'nextauth.token', { path: '/' });
     router.replace('/');
   };
 
