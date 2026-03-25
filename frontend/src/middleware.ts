@@ -43,7 +43,7 @@ export async function middleware(request: NextRequest) {
 
   try {
     const response = await fetch(
-      `http://82.197.67.88:3333/rotas-usuarios/${userId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/rotas-usuarios/${userId}`,
       {
         headers: {
           Authorization: `Bearer ${authToken}`,

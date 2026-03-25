@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { parseCookies } from "nookies";
 
 export const api = axios.create({
-  baseURL: "http://82.197.67.88:3333",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 api.interceptors.request.use((config) => {
