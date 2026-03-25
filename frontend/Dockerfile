@@ -1,15 +1,18 @@
-FROM node:alpine 
+FROM node:alpine
 
-WORKDIR /app 
+WORKDIR /app
 
-COPY *.json . 
+COPY *.json .
 
-RUN npm install 
+RUN npm install
 
-COPY . . 
+COPY . .
 
-RUN npm run build 
+LABEL app.required_env="NEXT_PUBLIC_API_URL" \
+  app.env.SECRET="Chave secreta da aplicação" 
 
-EXPOSE 3000 
+RUN npm run build
+
+EXPOSE 3000
 
 CMD [ "npm","run", "start" ]

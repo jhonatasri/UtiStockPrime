@@ -5,6 +5,7 @@ services:
     container_name: frontend_stock
     build: .
     platform: linux/amd64 
-   
+    environment:
+      - NEXT_PUBLIC_API_URL={NEXT_PUBLIC_API_URL}
     ports:
       - "3000:3000"
