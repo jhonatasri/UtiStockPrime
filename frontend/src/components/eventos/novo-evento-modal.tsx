@@ -18,7 +18,7 @@ import { Separator } from '@/src/components/ui/separator'
 import { Switch } from '@/src/components/ui/switch'
 
 import { useCriaEvento, getListaEventosQueryKey } from '@/src/http/generated/eventos/eventos'
-import { CategoriaEvento } from '@/src/http/generated/api.schemas'
+import { CriaEventoBodyCategoria as CategoriaEvento } from '@/src/http/generated/api.schemas'
 import { useListaUsuarios } from '@/src/http/generated/usuários/usuários'
 
 const EMAIL_REGEX = /^[A-Za-z0-9_'+\-.]*[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9-]*\.)+[A-Za-z]{2,}$/

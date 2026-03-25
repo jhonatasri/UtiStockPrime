@@ -46,7 +46,7 @@ export const cadastrarRotaUsuario = (
       
       
       return apiMutator<CadastrarRotaUsuario201>(
-      {url: `http://localhost:3333/rotas-usuarios`, method: 'POST',
+      {url: `/rotas-usuarios`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: cadastrarRotaUsuarioBody, signal
     },
@@ -106,7 +106,7 @@ export const removeRotaUsuario = (
       
       
       return apiMutator<RemoveRotaUsuario204>(
-      {url: `http://localhost:3333/rotas-usuarios/${id}`, method: 'DELETE', signal
+      {url: `/rotas-usuarios/${id}`, method: 'DELETE', signal
     },
       );
     }
@@ -164,7 +164,7 @@ export const listaRotasPorUsuario = (
       
       
       return apiMutator<ListaRotasPorUsuario200Item[]>(
-      {url: `http://localhost:3333/rotas-usuarios/${id}`, method: 'GET', signal
+      {url: `/rotas-usuarios/${id}`, method: 'GET', signal
     },
       );
     }
@@ -174,7 +174,7 @@ export const listaRotasPorUsuario = (
 
 export const getListaRotasPorUsuarioQueryKey = (id: number,) => {
     return [
-    `http://localhost:3333/rotas-usuarios/${id}`
+    `/rotas-usuarios/${id}`
     ] as const;
     }
 

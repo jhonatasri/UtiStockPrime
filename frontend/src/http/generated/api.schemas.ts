@@ -26,7 +26,6 @@ export type ListaUsuarios200Item = {
   ativo: boolean;
   telefone: string;
   funcao: unknown;
-  /** @nullable */
   descricao?: string | null;
 };
 
@@ -81,7 +80,6 @@ export type ListaUsuario200 = {
   ativo: boolean;
   telefone: string;
   funcao: unknown;
-  /** @nullable */
   descricao?: string | null;
 };
 
@@ -89,10 +87,8 @@ export type ListaRotas200Item = {
   id: number;
   rota: string;
   titulo: string;
-  /** @nullable */
   descricao?: string | null;
   logo: string;
-  /** @nullable */
   modulo?: string | null;
 };
 
@@ -113,47 +109,41 @@ export type ListaRotasPorUsuario200Item = {
   id: number;
   rota: string;
   titulo: string;
-  /** @nullable */
   descricao?: string | null;
   logo: string;
-  /** @nullable */
   modulo?: string | null;
 };
 
-export type CategoriaEvento = typeof CategoriaEvento[keyof typeof CategoriaEvento];
+export type ListaEventos200Item = {
+  id: number;
+  nome: string;
+  descricao?: string | null;
+  data?: string | null;
+  local?: string | null;
+  ativo: boolean;
+  categoria: string;
+  responsavelNome?: string | null;
+  responsavelTelefone?: string | null;
+  responsavelEmail?: string | null;
+};
 
-export const CategoriaEvento = {
+export type CriaEventoBodyCategoria = typeof CriaEventoBodyCategoria[keyof typeof CriaEventoBodyCategoria];
+
+
+export const CriaEventoBodyCategoria = {
   SHOW: 'SHOW',
   FESTIVAL: 'FESTIVAL',
   CORPORATIVO: 'CORPORATIVO',
   PRIVADO: 'PRIVADO',
 } as const;
 
-export type ListaEventos200Item = {
-  id: number;
-  nome: string;
-  /** @nullable */
-  descricao?: string | null;
-  /** @nullable */
-  data?: string | null;
-  /** @nullable */
-  local?: string | null;
-  ativo: boolean;
-  categoria: string;
-  /** @nullable */
-  responsavelNome?: string | null;
-  /** @nullable */
-  responsavelTelefone?: string | null;
-  /** @nullable */
-  responsavelEmail?: string | null;
-};
-
 export type CriaEventoBody = {
   nome: string;
   descricao?: string;
+  /** @pattern ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))T(?:(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z))$ */
   data?: string;
   local?: string;
-  categoria: CategoriaEvento;
+  categoria: CriaEventoBodyCategoria;
   ativo?: boolean;
   responsavelNome?: string;
   responsavelTelefone?: string;
@@ -161,14 +151,27 @@ export type CriaEventoBody = {
   usuariosIds?: number[];
 };
 
-export type CriaEvento201 = { id: number };
+export type CriaEvento201 = {
+  id: number;
+};
+
+export type AlteraEventoBodyCategoria = typeof AlteraEventoBodyCategoria[keyof typeof AlteraEventoBodyCategoria];
+
+
+export const AlteraEventoBodyCategoria = {
+  SHOW: 'SHOW',
+  FESTIVAL: 'FESTIVAL',
+  CORPORATIVO: 'CORPORATIVO',
+  PRIVADO: 'PRIVADO',
+} as const;
 
 export type AlteraEventoBody = {
   nome: string;
   descricao?: string;
+  /** @pattern ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))T(?:(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z))$ */
   data?: string;
   local?: string;
-  categoria: CategoriaEvento;
+  categoria: AlteraEventoBodyCategoria;
   ativo: boolean;
   responsavelNome?: string;
   responsavelTelefone?: string;
@@ -181,19 +184,13 @@ export type AlteraEvento200 = { [key: string]: unknown };
 export type ListaEvento200 = {
   id: number;
   nome: string;
-  /** @nullable */
   descricao?: string | null;
-  /** @nullable */
   data?: string | null;
-  /** @nullable */
   local?: string | null;
   ativo: boolean;
   categoria: string;
-  /** @nullable */
   responsavelNome?: string | null;
-  /** @nullable */
   responsavelTelefone?: string | null;
-  /** @nullable */
   responsavelEmail?: string | null;
   usuariosIds: number[];
 };

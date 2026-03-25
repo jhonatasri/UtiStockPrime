@@ -17,7 +17,7 @@ import {
 
 import { ColumnDef } from "@tanstack/react-table"
 import { useListaEventos } from "@/src/http/generated/eventos/eventos"
-import { CategoriaEvento, ListaEventos200Item } from "@/src/http/generated/api.schemas"
+import { CriaEventoBodyCategoria as CategoriaEvento, ListaEventos200Item } from "@/src/http/generated/api.schemas"
 import { DataTable } from "@/src/components/dataTable"
 
 import {

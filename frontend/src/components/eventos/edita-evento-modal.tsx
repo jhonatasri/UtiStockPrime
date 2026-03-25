@@ -18,7 +18,7 @@ import { Separator } from '@/src/components/ui/separator'
 import { Switch } from '@/src/components/ui/switch'
 
 import { useAlteraEvento, useListaEvento, getListaEventosQueryKey } from '@/src/http/generated/eventos/eventos'
-import { CategoriaEvento } from '@/src/http/generated/api.schemas'
+import { AlteraEventoBodyCategoria as CategoriaEvento } from '@/src/http/generated/api.schemas'
 import { useListaUsuarios } from '@/src/http/generated/usuários/usuários'
 
 type Props = {

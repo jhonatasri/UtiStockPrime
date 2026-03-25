@@ -9,7 +9,7 @@ import { Separator } from '@/src/components/ui/separator'
 import { useListaEvento } from '@/src/http/generated/eventos/eventos'
 import { useListaUsuarios } from '@/src/http/generated/usuários/usuários'
 import { EditaEventoModal } from './edita-evento-modal'
-import { CategoriaEvento } from '@/src/http/generated/api.schemas'
+import { CriaEventoBodyCategoria as CategoriaEvento } from '@/src/http/generated/api.schemas'
 
 type Props = {
   id: number | null

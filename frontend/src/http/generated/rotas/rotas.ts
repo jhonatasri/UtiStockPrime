@@ -39,7 +39,7 @@ export const listaRotas = (
       
       
       return apiMutator<ListaRotas200Item[]>(
-      {url: `http://localhost:3333/rotas`, method: 'GET', signal
+      {url: `/rotas`, method: 'GET', signal
     },
       );
     }
@@ -49,7 +49,7 @@ export const listaRotas = (
 
 export const getListaRotasQueryKey = () => {
     return [
-    `http://localhost:3333/rotas`
+    `/rotas`
     ] as const;
     }
 

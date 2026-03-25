@@ -36,7 +36,7 @@ export const login = (
       
       
       return apiMutator<Login200>(
-      {url: `http://localhost:3333/login`, method: 'POST',
+      {url: `/login`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: loginBody, signal
     },

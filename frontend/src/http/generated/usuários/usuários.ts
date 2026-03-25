@@ -48,7 +48,7 @@ export const listaUsuarios = (
       
       
       return apiMutator<ListaUsuarios200Item[]>(
-      {url: `http://localhost:3333/usuarios`, method: 'GET', signal
+      {url: `/usuarios`, method: 'GET', signal
     },
       );
     }
@@ -58,7 +58,7 @@ export const listaUsuarios = (
 
 export const getListaUsuariosQueryKey = () => {
     return [
-    `http://localhost:3333/usuarios`
+    `/usuarios`
     ] as const;
     }
 
@@ -135,7 +135,7 @@ export const criaUsuario = (
       
       
       return apiMutator<CriaUsuario201>(
-      {url: `http://localhost:3333/usuarios`, method: 'POST',
+      {url: `/usuarios`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: criaUsuarioBody, signal
     },
@@ -196,7 +196,7 @@ export const alteraUsuario = (
       
       
       return apiMutator<AlteraUsuario200>(
-      {url: `http://localhost:3333/usuario/${id}`, method: 'PUT',
+      {url: `/usuario/${id}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: alteraUsuarioBody, signal
     },
@@ -256,7 +256,7 @@ export const listaUsuario = (
       
       
       return apiMutator<ListaUsuario200>(
-      {url: `http://localhost:3333/usuario/${id}`, method: 'GET', signal
+      {url: `/usuario/${id}`, method: 'GET', signal
     },
       );
     }
@@ -266,7 +266,7 @@ export const listaUsuario = (
 
 export const getListaUsuarioQueryKey = (id: number,) => {
     return [
-    `http://localhost:3333/usuario/${id}`
+    `/usuario/${id}`
     ] as const;
     }
 

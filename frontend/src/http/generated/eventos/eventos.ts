@@ -42,48 +42,83 @@ import { apiMutator } from '../../../lib/api';
  * Busca todos os eventos do sistema
  */
 export const listaEventos = (
-  signal?: AbortSignal
+    
+ signal?: AbortSignal
 ) => {
-  return apiMutator<ListaEventos200Item[]>(
-    { url: `http://localhost:3333/eventos`, method: 'GET', signal },
-  );
-}
+      
+      
+      return apiMutator<ListaEventos200Item[]>(
+      {url: `/eventos`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
 
 export const getListaEventosQueryKey = () => {
-  return [`http://localhost:3333/eventos`] as const;
-}
+    return [
+    `/eventos`
+    ] as const;
+    }
 
-export const getListaEventosQueryOptions = <TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>(
-  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>> }
+    
+export const getListaEventosQueryOptions = <TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>>, }
 ) => {
-  const { query: queryOptions } = options ?? {};
-  const queryKey = queryOptions?.queryKey ?? getListaEventosQueryKey();
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof listaEventos>>> = ({ signal }) => listaEventos(signal);
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListaEventosQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listaEventos>>> = ({ signal }) => listaEventos(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type ListaEventosQueryResult = NonNullable<Awaited<ReturnType<typeof listaEventos>>>
 export type ListaEventosQueryError = unknown
 
-export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>(
-  options: { query: Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>> & Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof listaEventos>>, TError, Awaited<ReturnType<typeof listaEventos>>>, 'initialData'> },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>(
-  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>> & Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof listaEventos>>, TError, Awaited<ReturnType<typeof listaEventos>>>, 'initialData'> },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>(
-  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>> },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>(
-  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>> },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listaEventos>>,
+          TError,
+          Awaited<ReturnType<typeof listaEventos>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listaEventos>>,
+          TError,
+          Awaited<ReturnType<typeof listaEventos>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
   const queryOptions = getListaEventosQueryOptions(options)
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
@@ -94,140 +129,207 @@ export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>
  * Cria um evento no sistema
  */
 export const criaEvento = (
-  criaEventoBody: CriaEventoBody,
-  signal?: AbortSignal
+    criaEventoBody: CriaEventoBody,
+ signal?: AbortSignal
 ) => {
-  return apiMutator<CriaEvento201>(
-    { url: `http://localhost:3333/eventos`, method: 'POST', headers: { 'Content-Type': 'application/json' }, data: criaEventoBody, signal },
-  );
-}
+      
+      
+      return apiMutator<CriaEvento201>(
+      {url: `/eventos`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: criaEventoBody, signal
+    },
+      );
+    }
+  
 
-export const getCriaEventoMutationOptions = <TError = unknown, TContext = unknown>(
-  options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof criaEvento>>, TError, { data: CriaEventoBody }, TContext> }
-): UseMutationOptions<Awaited<ReturnType<typeof criaEvento>>, TError, { data: CriaEventoBody }, TContext> => {
-  const mutationKey = ['criaEvento'];
-  const { mutation: mutationOptions } = options ?
-    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
 
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof criaEvento>>, { data: CriaEventoBody }> = (props) => {
-    const { data } = props ?? {};
-    return criaEvento(data);
-  }
+export const getCriaEventoMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof criaEvento>>, TError,{data: CriaEventoBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof criaEvento>>, TError,{data: CriaEventoBody}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['criaEvento'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-export type CriaEventoMutationResult = NonNullable<Awaited<ReturnType<typeof criaEvento>>>
-export type CriaEventoMutationBody = CriaEventoBody
-export type CriaEventoMutationError = unknown
+      
 
-export const useCriaEvento = <TError = unknown, TContext = unknown>(
-  options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof criaEvento>>, TError, { data: CriaEventoBody }, TContext> },
-  queryClient?: QueryClient
-): UseMutationResult<Awaited<ReturnType<typeof criaEvento>>, TError, { data: CriaEventoBody }, TContext> => {
-  return useMutation(getCriaEventoMutationOptions(options), queryClient);
-}
 
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof criaEvento>>, {data: CriaEventoBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  criaEvento(data,)
+        }
 
 
 
-/**
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CriaEventoMutationResult = NonNullable<Awaited<ReturnType<typeof criaEvento>>>
+    export type CriaEventoMutationBody = CriaEventoBody
+    export type CriaEventoMutationError = unknown
+
+    export const useCriaEvento = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof criaEvento>>, TError,{data: CriaEventoBody}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof criaEvento>>,
+        TError,
+        {data: CriaEventoBody},
+        TContext
+      > => {
+      return useMutation(getCriaEventoMutationOptions(options), queryClient);
+    }
+    /**
  * Altera os dados de um evento
  */
 export const alteraEvento = (
-  id: number,
-  alteraEventoBody: AlteraEventoBody,
-  signal?: AbortSignal
+    id: number,
+    alteraEventoBody: AlteraEventoBody,
+ signal?: AbortSignal
 ) => {
-  return apiMutator<AlteraEvento200>(
-    { url: `http://localhost:3333/evento/${id}`, method: 'PUT', headers: { 'Content-Type': 'application/json' }, data: alteraEventoBody, signal },
-  );
-}
+      
+      
+      return apiMutator<AlteraEvento200>(
+      {url: `/evento/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: alteraEventoBody, signal
+    },
+      );
+    }
+  
 
-export const getAlteraEventoMutationOptions = <TError = unknown, TContext = unknown>(
-  options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof alteraEvento>>, TError, { id: number; data: AlteraEventoBody }, TContext> }
-): UseMutationOptions<Awaited<ReturnType<typeof alteraEvento>>, TError, { id: number; data: AlteraEventoBody }, TContext> => {
-  const mutationKey = ['alteraEvento'];
-  const { mutation: mutationOptions } = options ?
-    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
 
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof alteraEvento>>, { id: number; data: AlteraEventoBody }> = (props) => {
-    const { id, data } = props ?? {};
-    return alteraEvento(id, data);
-  }
+export const getAlteraEventoMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof alteraEvento>>, TError,{id: number;data: AlteraEventoBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof alteraEvento>>, TError,{id: number;data: AlteraEventoBody}, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['alteraEvento'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-export type AlteraEventoMutationResult = NonNullable<Awaited<ReturnType<typeof alteraEvento>>>
-export type AlteraEventoMutationBody = AlteraEventoBody
-export type AlteraEventoMutationError = unknown
+      
 
-export const useAlteraEvento = <TError = unknown, TContext = unknown>(
-  options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof alteraEvento>>, TError, { id: number; data: AlteraEventoBody }, TContext> },
-  queryClient?: QueryClient
-): UseMutationResult<Awaited<ReturnType<typeof alteraEvento>>, TError, { id: number; data: AlteraEventoBody }, TContext> => {
-  return useMutation(getAlteraEventoMutationOptions(options), queryClient);
-}
 
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof alteraEvento>>, {id: number;data: AlteraEventoBody}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  alteraEvento(id,data,)
+        }
 
 
 
-/**
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AlteraEventoMutationResult = NonNullable<Awaited<ReturnType<typeof alteraEvento>>>
+    export type AlteraEventoMutationBody = AlteraEventoBody
+    export type AlteraEventoMutationError = unknown
+
+    export const useAlteraEvento = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof alteraEvento>>, TError,{id: number;data: AlteraEventoBody}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof alteraEvento>>,
+        TError,
+        {id: number;data: AlteraEventoBody},
+        TContext
+      > => {
+      return useMutation(getAlteraEventoMutationOptions(options), queryClient);
+    }
+    /**
  * Busca um evento no sistema
  */
 export const listaEvento = (
-  id: number,
-  signal?: AbortSignal
+    id: number,
+ signal?: AbortSignal
 ) => {
-  return apiMutator<ListaEvento200>(
-    { url: `http://localhost:3333/evento/${id}`, method: 'GET', signal },
-  );
-}
+      
+      
+      return apiMutator<ListaEvento200>(
+      {url: `/evento/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getListaEventoQueryKey = (id: number) => {
-  return [`http://localhost:3333/evento/${id}`] as const;
-}
 
-export const getListaEventoQueryOptions = <TData = Awaited<ReturnType<typeof listaEvento>>, TError = unknown>(
-  id: number,
-  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEvento>>, TError, TData>> }
+
+export const getListaEventoQueryKey = (id: number,) => {
+    return [
+    `/evento/${id}`
+    ] as const;
+    }
+
+    
+export const getListaEventoQueryOptions = <TData = Awaited<ReturnType<typeof listaEvento>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEvento>>, TError, TData>>, }
 ) => {
-  const { query: queryOptions } = options ?? {};
-  const queryKey = queryOptions?.queryKey ?? getListaEventoQueryKey(id);
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof listaEvento>>> = ({ signal }) => listaEvento(id, signal);
-  return { queryKey, queryFn, enabled: !!(id), ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof listaEvento>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListaEventoQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listaEvento>>> = ({ signal }) => listaEvento(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listaEvento>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type ListaEventoQueryResult = NonNullable<Awaited<ReturnType<typeof listaEvento>>>
 export type ListaEventoQueryError = unknown
 
-export function useListaEvento<TData = Awaited<ReturnType<typeof listaEvento>>, TError = unknown>(
-  id: number,
-  options: { query: Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEvento>>, TError, TData>> & Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof listaEvento>>, TError, Awaited<ReturnType<typeof listaEvento>>>, 'initialData'> },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useListaEvento<TData = Awaited<ReturnType<typeof listaEvento>>, TError = unknown>(
-  id: number,
-  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEvento>>, TError, TData>> & Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof listaEvento>>, TError, Awaited<ReturnType<typeof listaEvento>>>, 'initialData'> },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useListaEvento<TData = Awaited<ReturnType<typeof listaEvento>>, TError = unknown>(
-  id: number,
-  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEvento>>, TError, TData>> },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useListaEvento<TData = Awaited<ReturnType<typeof listaEvento>>, TError = unknown>(
-  id: number,
-  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEvento>>, TError, TData>> },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-  const queryOptions = getListaEventoQueryOptions(id, options)
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEvento>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listaEvento>>,
+          TError,
+          Awaited<ReturnType<typeof listaEvento>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListaEvento<TData = Awaited<ReturnType<typeof listaEvento>>, TError = unknown>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEvento>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listaEvento>>,
+          TError,
+          Awaited<ReturnType<typeof listaEvento>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListaEvento<TData = Awaited<ReturnType<typeof listaEvento>>, TError = unknown>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEvento>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useListaEvento<TData = Awaited<ReturnType<typeof listaEvento>>, TError = unknown>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEvento>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListaEventoQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
   return { ...query, queryKey: queryOptions.queryKey };
 }
+
+
+
+
