@@ -8,8 +8,11 @@ RUN npm install
 
 COPY . .
 
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 LABEL app.required_env="NEXT_PUBLIC_API_URL" \
-  app.env.SECRET="Chave secreta da aplicação" 
+  app.env.SECRET="Chave secreta da aplicação"
 
 RUN npm run build
 
