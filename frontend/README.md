@@ -1,5 +1,19 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Alteração de URL da API
+
+A URL base da API está hardcoded em **3 arquivos**. Ao trocar de servidor, altere em todos:
+
+| Arquivo | Linha | Uso |
+|---|---|---|
+| `orval.config.ts` | 5 | Gera os clientes HTTP (Orval) a partir do Swagger |
+| `src/lib/api.ts` | 5 | Instância do Axios usada nas requisições |
+| `src/middleware.ts` | 46 | Valida permissões de rotas do usuário autenticado |
+
+**URL atual:** `http://82.197.67.88:3333`
+
+> Recomendado: mover a URL para uma variável de ambiente `NEXT_PUBLIC_API_URL` no arquivo `.env.local` e referenciar nos arquivos acima.
+
 ## Getting Started
 
 First, run the development server:
