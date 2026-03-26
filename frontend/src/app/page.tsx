@@ -19,6 +19,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthContext";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import axios from "axios";
 
 export default function Home() {
   const Router = useRouter()
@@ -44,7 +46,14 @@ export default function Home() {
   });
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    await signIn(data)
+    try {
+      await signIn(data)
+    } catch (error) {
+      const message = axios.isAxiosError(error)
+        ? error.response?.data?.message ?? "Erro ao realizar login."
+        : "Erro inesperado. Tente novamente."
+      toast.error(message)
+    }
   }
 
   return (

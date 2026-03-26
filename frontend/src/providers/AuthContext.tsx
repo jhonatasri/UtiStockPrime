@@ -101,11 +101,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       return router.replace(`/dashboard`);
     } catch (error) {
-      console.log(error)
-      // toast({
-      //   title: 'error',
-      //   description: error.response.data.message,
-      // })
+      throw error
     }
   };
 
