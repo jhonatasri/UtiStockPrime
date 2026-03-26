@@ -6,7 +6,7 @@ import LoginImageVertical from "@/public/LogoVertical.svg";
 import LogoUtivirtual from "@/public/LogoUtivirtual.png";
 import Logo from "@/public/logoLogin.svg";
 
-import { FiBox, FiEye, FiLock, FiMail } from "react-icons/fi";
+import { FiBox, FiEye, FiEyeOff, FiLock, FiMail } from "react-icons/fi";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/src/components/ui/field";
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/src/components/ui/input";
@@ -16,7 +16,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthContext";
 import { useRouter } from "next/navigation";
 
@@ -24,6 +24,7 @@ export default function Home() {
   const Router = useRouter()
 
   const { signIn, isAuthenticated } = useContext(AuthContext)
+  const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -129,7 +130,7 @@ export default function Home() {
                       <FiLock size={20} className="text-gray-400" />
                       <Input
                         {...field}
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="Informe sua senha"
                         className="border-0
       focus:border-0
@@ -141,7 +142,9 @@ export default function Home() {
       bg-transparent
       px-0"
                       />
-                      <FiEye size={20} className="text-[#737373]" />
+                      <button type="button" onClick={() => setShowPassword(v => !v)} className="text-[#737373] cursor-pointer">
+                        {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                      </button>
                     </div>
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                   </Field>
