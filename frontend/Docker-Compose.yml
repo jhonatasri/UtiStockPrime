@@ -3,12 +3,8 @@ version: '3'
 services:
   frontend_stock:
     container_name: frontend_stock
-    build:
-      context: .
-      args:
-        - NEXT_PUBLIC_API_URL=http://82.197.67.88:3333
-    platform: linux/amd64
-    environment:
-      - NEXT_PUBLIC_API_URL=http://82.197.67.88:3333
+    build: .
+    platform: linux/amd64 
+   
     ports:
       - "3000:3000"

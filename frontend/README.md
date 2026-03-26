@@ -12,7 +12,7 @@ A URL base da API está hardcoded em **3 arquivos**. Ao trocar de servidor, alte
 
 **URL atual:** `http://82.197.67.88:3333`
 
-> A URL é lida da variável de ambiente `NEXT_PUBLIC_API_URL` definida no arquivo `.env`.
+> Recomendado: mover a URL para uma variável de ambiente `NEXT_PUBLIC_API_URL` no arquivo `.env.local` e referenciar nos arquivos acima.
 
 ## Getting Started
 

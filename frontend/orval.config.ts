@@ -1,13 +1,8 @@
 import { defineConfig } from "orval";
-import * as dotenv from "dotenv";
-
-dotenv.config();
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3333";
 
 export default defineConfig({
   api: {
-    input: `${apiUrl}/docs/swagger`,
+    input: "http://82.197.67.88:3333/docs/swagger",
     output: {
       clean: true,
       mode: "tags-split",
