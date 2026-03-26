@@ -4,17 +4,17 @@ import { ReactQueryProvider } from "../providers/reactQuery";
 import { AuthProvider } from "@/src/providers/AuthContext";
 import { Toaster } from "sonner";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { Metadata } from "next";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 })
 
-// // 
-// export const metadata: Metadata = {
-//   title: "UTIStock Prime",
-//   description: "Solução enterprise de controle de estoque com alta performance, segurança e escalabilidade. Ideal para operações complexas e grandes volumes.",
-// };
+export const metadata: Metadata = {
+  title: "UTIStock Prime",
+  description: "Solução enterprise de controle de estoque com alta performance, segurança e escalabilidade. Ideal para operações complexas e grandes volumes.",
+};
 
 export default function RootLayout({
   children,
