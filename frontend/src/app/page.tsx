@@ -159,7 +159,7 @@ export default function Home() {
               <br />
 
               <div className="w-full flex items-center justify-center">
-                <Button className="min-w-89 h-10 bg-gray text-white">
+                <Button className="min-w-89 h-10 bg-gray text-white cursor-pointer">
                   Entrar
                 </Button>
               </div>
