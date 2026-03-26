@@ -6,7 +6,7 @@ import LoginImageVertical from "@/public/LogoVertical.svg";
 import LogoUtivirtual from "@/public/LogoUtivirtual.png";
 import Logo from "@/public/logoLogin.svg";
 
-import { FiBox, FiEye, FiEyeOff, FiLock, FiMail } from "react-icons/fi";
+import { FiBox, FiEye, FiEyeOff, FiLoader, FiLock, FiMail } from "react-icons/fi";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/src/components/ui/field";
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/src/components/ui/input";
@@ -27,6 +27,7 @@ export default function Home() {
 
   const { signIn, isAuthenticated } = useContext(AuthContext)
   const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -46,6 +47,7 @@ export default function Home() {
   });
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
+    setIsLoading(true)
     try {
       await signIn(data)
     } catch (error) {
@@ -53,6 +55,8 @@ export default function Home() {
         ? error.response?.data?.message ?? "Erro ao realizar login."
         : "Erro inesperado. Tente novamente."
       toast.error(message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -168,8 +172,9 @@ export default function Home() {
               <br />
 
               <div className="w-full flex items-center justify-center">
-                <Button className="min-w-89 h-10 bg-gray text-white cursor-pointer">
-                  Entrar
+                <Button disabled={isLoading} className="min-w-89 h-10 bg-gray text-white cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2">
+                  {isLoading && <FiLoader size={16} className="animate-spin" />}
+                  {isLoading ? "Entrando..." : "Entrar"}
                 </Button>
               </div>
             </footer>
