@@ -45,6 +45,7 @@ export function TeamSwitcher({
       setActiveTeam(found)
       if (found.id != null) localStorage.setItem('selected-team-id', String(found.id))
     }
+
   }, [teams])
 
   if (!activeTeam) {
@@ -89,11 +90,12 @@ export function TeamSwitcher({
               <DropdownMenuItem
                 key={team.name}
                 onClick={() => {
-                setActiveTeam(team)
-                localStorage.setItem('selected-team', team.name)
-                if (team.id != null) localStorage.setItem('selected-team-id', String(team.id))
-                else localStorage.removeItem('selected-team-id')
-              }}
+                  setActiveTeam(team)
+                  localStorage.setItem('selected-team', team.name)
+                  if (team.id != null) localStorage.setItem('selected-team-id', String(team.id))
+                  else localStorage.removeItem('selected-team-id')
+                  window.location.reload()
+                }}
                 className="gap-2 p-2"
               >
                 <div className="flex size-6 items-center justify-center rounded-md border">

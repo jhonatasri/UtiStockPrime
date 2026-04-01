@@ -26,11 +26,18 @@ export const eventosController: FastifyPluginAsyncZod = async (app) => {
         tags: ["Eventos"],
         operationId: "listaEventos",
         security: [{ BearerAuth: [] }],
+        querystring: z.object({ usuarioId: z.coerce.number().optional() }),
         response: { 200: z.array(eventoResponse) },
       },
     },
     async (req, res) => {
-      const eventos = await prisma.eventos.findMany({ orderBy: { id: "asc" } });
+      const { usuarioId } = req.query;
+      const eventos = await prisma.eventos.findMany({
+        where: usuarioId
+          ? { ativo: true, usuarios: { some: { usuariosId: usuarioId } } }
+          : undefined,
+        orderBy: { id: "asc" },
+      });
       return res.send(
         eventos.map((e) => ({ ...e, data: e.data?.toISOString() ?? null }))
       );

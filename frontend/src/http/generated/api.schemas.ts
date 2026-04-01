@@ -120,6 +120,10 @@ export type ListaRotasPorUsuario200Item = {
   modulo?: string | null;
 };
 
+export type ListaEventosParams = {
+usuarioId?: number;
+};
+
 export type ListaEventos200Item = {
   id: number;
   nome: string;

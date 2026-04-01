@@ -609,6 +609,16 @@
           "Eventos"
         ],
         "description": "Busca todos os eventos do sistema",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "usuarioId",
+            "required": false
+          }
+        ],
         "security": [
           {
             "BearerAuth": []

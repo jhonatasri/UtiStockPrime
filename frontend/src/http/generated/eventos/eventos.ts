@@ -30,7 +30,8 @@ import type {
   CriaEvento201,
   CriaEventoBody,
   ListaEvento200,
-  ListaEventos200Item
+  ListaEventos200Item,
+  ListaEventosParams
 } from '../api.schemas';
 
 import { apiMutator } from '../../../lib/api';
@@ -42,13 +43,14 @@ import { apiMutator } from '../../../lib/api';
  * Busca todos os eventos do sistema
  */
 export const listaEventos = (
-    
+    params?: ListaEventosParams,
  signal?: AbortSignal
 ) => {
       
       
       return apiMutator<ListaEventos200Item[]>(
-      {url: `/eventos`, method: 'GET', signal
+      {url: `/eventos`, method: 'GET',
+        params, signal
     },
       );
     }
@@ -56,23 +58,23 @@ export const listaEventos = (
 
 
 
-export const getListaEventosQueryKey = () => {
+export const getListaEventosQueryKey = (params?: ListaEventosParams,) => {
     return [
-    `/eventos`
+    `/eventos`, ...(params ? [params] : [])
     ] as const;
     }
 
     
-export const getListaEventosQueryOptions = <TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>>, }
+export const getListaEventosQueryOptions = <TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>(params?: ListaEventosParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getListaEventosQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getListaEventosQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof listaEventos>>> = ({ signal }) => listaEventos(signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listaEventos>>> = ({ signal }) => listaEventos(params, signal);
 
       
 
@@ -86,7 +88,7 @@ export type ListaEventosQueryError = unknown
 
 
 export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>> & Pick<
+ params: undefined |  ListaEventosParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof listaEventos>>,
           TError,
@@ -96,7 +98,7 @@ export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>> & Pick<
+ params?: ListaEventosParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof listaEventos>>,
           TError,
@@ -106,16 +108,16 @@ export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>>, }
+ params?: ListaEventosParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useListaEventos<TData = Awaited<ReturnType<typeof listaEventos>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>>, }
+ params?: ListaEventosParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaEventos>>, TError, TData>>, }
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getListaEventosQueryOptions(options)
+  const queryOptions = getListaEventosQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   description: "Solução enterprise de controle de estoque com alta performance, segurança e escalabilidade. Ideal para operações complexas e grandes volumes.",
 };
 
+
+
+
 export default function RootLayout({
   children,
 }: Readonly<{

@@ -36,7 +36,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: rotas } = useListaRotasPorUsuario(userId, {
     query: { enabled: !!userId },
   })
-  const { data: eventos } = useListaEventos()
+  const { data: eventos } = useListaEventos(
+    { usuarioId: userId },
+    { query: { enabled: !!userId } },
+  )
 
   const teams = React.useMemo(() => {
     const eventTeams = (eventos ?? [])
