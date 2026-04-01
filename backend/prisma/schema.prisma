@@ -22,6 +22,25 @@ enum FuncaoTypes {
   COORDENADOR_ESTOQUE
 }
 
+enum TipoArmazenamento {
+  SECO
+  REFRIGERADO
+  CONGELADO
+  AMBIENTE
+}
+
+enum TipoConsumo {
+  CONSUMIVEL
+  NAO_CONSUMIVEL
+  SEMI_CONSUMIVEL
+}
+
+enum TipoConsumoDetalhe {
+  POR_DOSE
+  POR_UNIDADE
+  POR_VOLUME
+}
+
 model Usuarios {
   id            Int             @id @default(autoincrement())
   nome          String
@@ -75,6 +94,27 @@ model Eventos {
   usuarios            EventosUsuarios[]
 
   @@map("eventos")
+}
+
+model Produtos {
+  id                  Int                @id @default(autoincrement())
+  codigo              String             @unique
+  nome                String
+  categoria           String
+  marca               String
+  modelo              String?
+  descricao           String?
+  unidadeMedida       String
+  quantidadeMinima    Int                @default(0)
+  ativo               Boolean            @default(true)
+  tipoArmazenamento   TipoArmazenamento
+  tipoConsumo         TipoConsumo
+  tipoConsumoDetalhe  TipoConsumoDetalhe
+  volumePorUnidade    Float?
+  mlPorDose           Float?
+  dosesPorUnidade     Float?
+
+  @@map("produtos")
 }
 
 model EventosUsuarios {

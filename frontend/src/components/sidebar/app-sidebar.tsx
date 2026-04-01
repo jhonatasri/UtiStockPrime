@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { GalleryVerticalEnd, AudioWaveform, LayoutDashboard, type LucideIcon } from "lucide-react"
+import { GalleryVerticalEnd, LayoutDashboard, CalendarCheck, type LucideIcon } from "lucide-react"
 import * as LucideIcons from "lucide-react"
 
 import {
@@ -17,19 +17,13 @@ import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"
 import { AuthContext } from "@/src/providers/AuthContext"
 import { useListaRotasPorUsuario } from "@/src/http/generated/rotas-usuários/rotas-usuários"
+import { useListaEventos } from "@/src/http/generated/eventos/eventos"
 
-const teams = [
-  {
-    name: "Uti Stock",
-    logo: GalleryVerticalEnd,
-    plan: "Prime",
-  },
-  {
-    name: "Acme Corp.",
-    logo: AudioWaveform,
-    plan: "Startup",
-  },
-]
+const defaultTeam = {
+  name: "Uti Stock",
+  logo: GalleryVerticalEnd,
+  plan: "Prime",
+}
 
 function resolveIcon(name: string): LucideIcon {
   return (LucideIcons[name as keyof typeof LucideIcons] as LucideIcon) ?? LayoutDashboard
@@ -42,6 +36,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: rotas } = useListaRotasPorUsuario(userId, {
     query: { enabled: !!userId },
   })
+  const { data: eventos } = useListaEventos()
+
+  const teams = React.useMemo(() => {
+    const eventTeams = (eventos ?? [])
+      .filter((e) => e.ativo)
+      .map((e) => ({
+        name: e.nome,
+        logo: CalendarCheck,
+        plan: e.categoria,
+      }))
+    return [defaultTeam, ...eventTeams]
+  }, [eventos])
 
   const navMain = React.useMemo(() => {
     if (!rotas) return []

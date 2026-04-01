@@ -26,6 +26,7 @@ export type ListaUsuarios200Item = {
   ativo: boolean;
   telefone: string;
   funcao: unknown;
+  /** @nullable */
   descricao?: string | null;
 };
 
@@ -80,6 +81,7 @@ export type ListaUsuario200 = {
   ativo: boolean;
   telefone: string;
   funcao: unknown;
+  /** @nullable */
   descricao?: string | null;
 };
 
@@ -87,8 +89,10 @@ export type ListaRotas200Item = {
   id: number;
   rota: string;
   titulo: string;
+  /** @nullable */
   descricao?: string | null;
   logo: string;
+  /** @nullable */
   modulo?: string | null;
 };
 
@@ -109,21 +113,29 @@ export type ListaRotasPorUsuario200Item = {
   id: number;
   rota: string;
   titulo: string;
+  /** @nullable */
   descricao?: string | null;
   logo: string;
+  /** @nullable */
   modulo?: string | null;
 };
 
 export type ListaEventos200Item = {
   id: number;
   nome: string;
+  /** @nullable */
   descricao?: string | null;
+  /** @nullable */
   data?: string | null;
+  /** @nullable */
   local?: string | null;
   ativo: boolean;
   categoria: string;
+  /** @nullable */
   responsavelNome?: string | null;
+  /** @nullable */
   responsavelTelefone?: string | null;
+  /** @nullable */
   responsavelEmail?: string | null;
 };
 
@@ -184,14 +196,238 @@ export type AlteraEvento200 = { [key: string]: unknown };
 export type ListaEvento200 = {
   id: number;
   nome: string;
+  /** @nullable */
   descricao?: string | null;
+  /** @nullable */
   data?: string | null;
+  /** @nullable */
   local?: string | null;
   ativo: boolean;
   categoria: string;
+  /** @nullable */
   responsavelNome?: string | null;
+  /** @nullable */
   responsavelTelefone?: string | null;
+  /** @nullable */
   responsavelEmail?: string | null;
   usuariosIds: number[];
 };
+
+export type ListaProdutos200ItemTipoArmazenamento = typeof ListaProdutos200ItemTipoArmazenamento[keyof typeof ListaProdutos200ItemTipoArmazenamento];
+
+
+export const ListaProdutos200ItemTipoArmazenamento = {
+  SECO: 'SECO',
+  REFRIGERADO: 'REFRIGERADO',
+  CONGELADO: 'CONGELADO',
+  AMBIENTE: 'AMBIENTE',
+} as const;
+
+export type ListaProdutos200ItemTipoConsumo = typeof ListaProdutos200ItemTipoConsumo[keyof typeof ListaProdutos200ItemTipoConsumo];
+
+
+export const ListaProdutos200ItemTipoConsumo = {
+  CONSUMIVEL: 'CONSUMIVEL',
+  NAO_CONSUMIVEL: 'NAO_CONSUMIVEL',
+  SEMI_CONSUMIVEL: 'SEMI_CONSUMIVEL',
+} as const;
+
+export type ListaProdutos200ItemTipoConsumoDetalhe = typeof ListaProdutos200ItemTipoConsumoDetalhe[keyof typeof ListaProdutos200ItemTipoConsumoDetalhe];
+
+
+export const ListaProdutos200ItemTipoConsumoDetalhe = {
+  POR_DOSE: 'POR_DOSE',
+  POR_UNIDADE: 'POR_UNIDADE',
+  POR_VOLUME: 'POR_VOLUME',
+} as const;
+
+export type ListaProdutos200Item = {
+  id: number;
+  codigo: string;
+  nome: string;
+  categoria: string;
+  marca: string;
+  /** @nullable */
+  modelo?: string | null;
+  /** @nullable */
+  descricao?: string | null;
+  unidadeMedida: string;
+  quantidadeMinima: number;
+  ativo: boolean;
+  tipoArmazenamento: ListaProdutos200ItemTipoArmazenamento;
+  tipoConsumo: ListaProdutos200ItemTipoConsumo;
+  tipoConsumoDetalhe: ListaProdutos200ItemTipoConsumoDetalhe;
+  /** @nullable */
+  volumePorUnidade?: number | null;
+  /** @nullable */
+  mlPorDose?: number | null;
+  /** @nullable */
+  dosesPorUnidade?: number | null;
+};
+
+export type CriaProdutoBodyTipoArmazenamento = typeof CriaProdutoBodyTipoArmazenamento[keyof typeof CriaProdutoBodyTipoArmazenamento];
+
+
+export const CriaProdutoBodyTipoArmazenamento = {
+  SECO: 'SECO',
+  REFRIGERADO: 'REFRIGERADO',
+  CONGELADO: 'CONGELADO',
+  AMBIENTE: 'AMBIENTE',
+} as const;
+
+export type CriaProdutoBodyTipoConsumo = typeof CriaProdutoBodyTipoConsumo[keyof typeof CriaProdutoBodyTipoConsumo];
+
+
+export const CriaProdutoBodyTipoConsumo = {
+  CONSUMIVEL: 'CONSUMIVEL',
+  NAO_CONSUMIVEL: 'NAO_CONSUMIVEL',
+  SEMI_CONSUMIVEL: 'SEMI_CONSUMIVEL',
+} as const;
+
+export type CriaProdutoBodyTipoConsumoDetalhe = typeof CriaProdutoBodyTipoConsumoDetalhe[keyof typeof CriaProdutoBodyTipoConsumoDetalhe];
+
+
+export const CriaProdutoBodyTipoConsumoDetalhe = {
+  POR_DOSE: 'POR_DOSE',
+  POR_UNIDADE: 'POR_UNIDADE',
+  POR_VOLUME: 'POR_VOLUME',
+} as const;
+
+export type CriaProdutoBody = {
+  codigo: string;
+  nome: string;
+  categoria: string;
+  marca: string;
+  modelo?: string;
+  descricao?: string;
+  unidadeMedida: string;
+  /**
+   * @minimum 0
+   * @maximum 9007199254740991
+   */
+  quantidadeMinima: number;
+  ativo?: boolean;
+  tipoArmazenamento: CriaProdutoBodyTipoArmazenamento;
+  tipoConsumo: CriaProdutoBodyTipoConsumo;
+  tipoConsumoDetalhe: CriaProdutoBodyTipoConsumoDetalhe;
+  volumePorUnidade?: number;
+  mlPorDose?: number;
+  dosesPorUnidade?: number;
+};
+
+export type CriaProduto201 = {
+  id: number;
+};
+
+export type ListaProduto200TipoArmazenamento = typeof ListaProduto200TipoArmazenamento[keyof typeof ListaProduto200TipoArmazenamento];
+
+
+export const ListaProduto200TipoArmazenamento = {
+  SECO: 'SECO',
+  REFRIGERADO: 'REFRIGERADO',
+  CONGELADO: 'CONGELADO',
+  AMBIENTE: 'AMBIENTE',
+} as const;
+
+export type ListaProduto200TipoConsumo = typeof ListaProduto200TipoConsumo[keyof typeof ListaProduto200TipoConsumo];
+
+
+export const ListaProduto200TipoConsumo = {
+  CONSUMIVEL: 'CONSUMIVEL',
+  NAO_CONSUMIVEL: 'NAO_CONSUMIVEL',
+  SEMI_CONSUMIVEL: 'SEMI_CONSUMIVEL',
+} as const;
+
+export type ListaProduto200TipoConsumoDetalhe = typeof ListaProduto200TipoConsumoDetalhe[keyof typeof ListaProduto200TipoConsumoDetalhe];
+
+
+export const ListaProduto200TipoConsumoDetalhe = {
+  POR_DOSE: 'POR_DOSE',
+  POR_UNIDADE: 'POR_UNIDADE',
+  POR_VOLUME: 'POR_VOLUME',
+} as const;
+
+export type ListaProduto200 = {
+  id: number;
+  codigo: string;
+  nome: string;
+  categoria: string;
+  marca: string;
+  /** @nullable */
+  modelo?: string | null;
+  /** @nullable */
+  descricao?: string | null;
+  unidadeMedida: string;
+  quantidadeMinima: number;
+  ativo: boolean;
+  tipoArmazenamento: ListaProduto200TipoArmazenamento;
+  tipoConsumo: ListaProduto200TipoConsumo;
+  tipoConsumoDetalhe: ListaProduto200TipoConsumoDetalhe;
+  /** @nullable */
+  volumePorUnidade?: number | null;
+  /** @nullable */
+  mlPorDose?: number | null;
+  /** @nullable */
+  dosesPorUnidade?: number | null;
+};
+
+export type AlteraProdutoBodyTipoArmazenamento = typeof AlteraProdutoBodyTipoArmazenamento[keyof typeof AlteraProdutoBodyTipoArmazenamento];
+
+
+export const AlteraProdutoBodyTipoArmazenamento = {
+  SECO: 'SECO',
+  REFRIGERADO: 'REFRIGERADO',
+  CONGELADO: 'CONGELADO',
+  AMBIENTE: 'AMBIENTE',
+} as const;
+
+export type AlteraProdutoBodyTipoConsumo = typeof AlteraProdutoBodyTipoConsumo[keyof typeof AlteraProdutoBodyTipoConsumo];
+
+
+export const AlteraProdutoBodyTipoConsumo = {
+  CONSUMIVEL: 'CONSUMIVEL',
+  NAO_CONSUMIVEL: 'NAO_CONSUMIVEL',
+  SEMI_CONSUMIVEL: 'SEMI_CONSUMIVEL',
+} as const;
+
+export type AlteraProdutoBodyTipoConsumoDetalhe = typeof AlteraProdutoBodyTipoConsumoDetalhe[keyof typeof AlteraProdutoBodyTipoConsumoDetalhe];
+
+
+export const AlteraProdutoBodyTipoConsumoDetalhe = {
+  POR_DOSE: 'POR_DOSE',
+  POR_UNIDADE: 'POR_UNIDADE',
+  POR_VOLUME: 'POR_VOLUME',
+} as const;
+
+export type AlteraProdutoBody = {
+  codigo: string;
+  nome: string;
+  categoria: string;
+  marca: string;
+  modelo?: string;
+  descricao?: string;
+  unidadeMedida: string;
+  /**
+   * @minimum 0
+   * @maximum 9007199254740991
+   */
+  quantidadeMinima: number;
+  ativo?: boolean;
+  tipoArmazenamento: AlteraProdutoBodyTipoArmazenamento;
+  tipoConsumo: AlteraProdutoBodyTipoConsumo;
+  tipoConsumoDetalhe: AlteraProdutoBodyTipoConsumoDetalhe;
+  volumePorUnidade?: number;
+  mlPorDose?: number;
+  dosesPorUnidade?: number;
+};
+
+export type AlteraProduto200 = { [key: string]: unknown };
+
+export type RemoveProduto204 = { [key: string]: unknown };
+
+export type AlteraStatusProdutoBody = {
+  ativo: boolean;
+};
+
+export type AlteraStatusProduto200 = { [key: string]: unknown };
 
