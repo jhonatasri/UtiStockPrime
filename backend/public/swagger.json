@@ -956,6 +956,16 @@
           "Produtos"
         ],
         "description": "Lista todos os produtos do sistema",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "eventoId",
+            "required": false
+          }
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -1037,6 +1047,10 @@
                         "nullable": true
                       },
                       "dosesPorUnidade": {
+                        "type": "number",
+                        "nullable": true
+                      },
+                      "eventoId": {
                         "type": "number",
                         "nullable": true
                       }
@@ -1136,6 +1150,9 @@
                     "type": "number"
                   },
                   "dosesPorUnidade": {
+                    "type": "number"
+                  },
+                  "eventoId": {
                     "type": "number"
                   }
                 },
@@ -1281,6 +1298,10 @@
                     "dosesPorUnidade": {
                       "type": "number",
                       "nullable": true
+                    },
+                    "eventoId": {
+                      "type": "number",
+                      "nullable": true
                     }
                   },
                   "required": [
@@ -1377,6 +1398,9 @@
                     "type": "number"
                   },
                   "dosesPorUnidade": {
+                    "type": "number"
+                  },
+                  "eventoId": {
                     "type": "number"
                   }
                 },

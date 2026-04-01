@@ -33,6 +33,7 @@ import type {
   CriaProdutoBody,
   ListaProduto200,
   ListaProdutos200Item,
+  ListaProdutosParams,
   RemoveProduto204
 } from '../api.schemas';
 
@@ -45,13 +46,14 @@ import { apiMutator } from '../../../lib/api';
  * Lista todos os produtos do sistema
  */
 export const listaProdutos = (
-    
+    params?: ListaProdutosParams,
  signal?: AbortSignal
 ) => {
       
       
       return apiMutator<ListaProdutos200Item[]>(
-      {url: `/produtos`, method: 'GET', signal
+      {url: `/produtos`, method: 'GET',
+        params, signal
     },
       );
     }
@@ -59,23 +61,23 @@ export const listaProdutos = (
 
 
 
-export const getListaProdutosQueryKey = () => {
+export const getListaProdutosQueryKey = (params?: ListaProdutosParams,) => {
     return [
-    `/produtos`
+    `/produtos`, ...(params ? [params] : [])
     ] as const;
     }
 
     
-export const getListaProdutosQueryOptions = <TData = Awaited<ReturnType<typeof listaProdutos>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaProdutos>>, TError, TData>>, }
+export const getListaProdutosQueryOptions = <TData = Awaited<ReturnType<typeof listaProdutos>>, TError = unknown>(params?: ListaProdutosParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaProdutos>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getListaProdutosQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getListaProdutosQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof listaProdutos>>> = ({ signal }) => listaProdutos(signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listaProdutos>>> = ({ signal }) => listaProdutos(params, signal);
 
       
 
@@ -89,7 +91,7 @@ export type ListaProdutosQueryError = unknown
 
 
 export function useListaProdutos<TData = Awaited<ReturnType<typeof listaProdutos>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaProdutos>>, TError, TData>> & Pick<
+ params: undefined |  ListaProdutosParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaProdutos>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof listaProdutos>>,
           TError,
@@ -99,7 +101,7 @@ export function useListaProdutos<TData = Awaited<ReturnType<typeof listaProdutos
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListaProdutos<TData = Awaited<ReturnType<typeof listaProdutos>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaProdutos>>, TError, TData>> & Pick<
+ params?: ListaProdutosParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaProdutos>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof listaProdutos>>,
           TError,
@@ -109,16 +111,16 @@ export function useListaProdutos<TData = Awaited<ReturnType<typeof listaProdutos
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useListaProdutos<TData = Awaited<ReturnType<typeof listaProdutos>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaProdutos>>, TError, TData>>, }
+ params?: ListaProdutosParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaProdutos>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useListaProdutos<TData = Awaited<ReturnType<typeof listaProdutos>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaProdutos>>, TError, TData>>, }
+ params?: ListaProdutosParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listaProdutos>>, TError, TData>>, }
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getListaProdutosQueryOptions(options)
+  const queryOptions = getListaProdutosQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

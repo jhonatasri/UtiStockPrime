@@ -24,6 +24,7 @@ const produtoResponse = z.object({
   volumePorUnidade: z.number().optional().nullable(),
   mlPorDose: z.number().optional().nullable(),
   dosesPorUnidade: z.number().optional().nullable(),
+  eventoId: z.number().optional().nullable(),
 });
 
 const produtoBody = z.object({
@@ -42,6 +43,7 @@ const produtoBody = z.object({
   volumePorUnidade: z.number().optional(),
   mlPorDose: z.number().optional(),
   dosesPorUnidade: z.number().optional(),
+  eventoId: z.number().optional(),
 });
 
 export const produtosController: FastifyPluginAsyncZod = async (app) => {
@@ -53,11 +55,16 @@ export const produtosController: FastifyPluginAsyncZod = async (app) => {
         tags: ["Produtos"],
         operationId: "listaProdutos",
         security: [{ BearerAuth: [] }],
+        querystring: z.object({ eventoId: z.coerce.number().optional() }),
         response: { 200: z.array(produtoResponse) },
       },
     },
     async (req, res) => {
-      const produtos = await prisma.produtos.findMany({ orderBy: { id: "asc" } });
+      const { eventoId } = req.query;
+      const produtos = await prisma.produtos.findMany({
+        where: eventoId ? { eventoId } : undefined,
+        orderBy: { id: "asc" },
+      });
       return res.send(produtos);
     }
   );

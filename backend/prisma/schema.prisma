@@ -92,6 +92,7 @@ model Eventos {
   responsavelTelefone String?
   responsavelEmail    String?
   usuarios            EventosUsuarios[]
+  produtos            Produtos[]
 
   @@map("eventos")
 }
@@ -113,6 +114,8 @@ model Produtos {
   volumePorUnidade    Float?
   mlPorDose           Float?
   dosesPorUnidade     Float?
+  eventoId            Int?
+  evento              Eventos?           @relation(fields: [eventoId], references: [id], onDelete: SetNull)
 
   @@map("produtos")
 }

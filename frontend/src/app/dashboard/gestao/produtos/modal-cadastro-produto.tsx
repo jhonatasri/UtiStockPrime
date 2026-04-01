@@ -92,9 +92,10 @@ interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
   onSuccess: () => void
+  eventoId?: number
 }
 
-export function ModalCadastroProduto({ open, onOpenChange, onSuccess }: Props) {
+export function ModalCadastroProduto({ open, onOpenChange, onSuccess, eventoId }: Props) {
   const [form, setForm] = useState<FormData>(formInicial)
   const { mutate: criaProduto, isPending } = useCriaProduto()
 
@@ -131,6 +132,7 @@ export function ModalCadastroProduto({ open, onOpenChange, onSuccess }: Props) {
       dosesPorUnidade: form.dosesPorUnidade
         ? Number(form.dosesPorUnidade)
         : undefined,
+      eventoId: eventoId ?? undefined,
     }
 
     criaProduto(

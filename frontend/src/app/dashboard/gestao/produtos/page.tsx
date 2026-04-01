@@ -66,7 +66,11 @@ export default function ProdutosPage() {
   const [produtoEditando, setProdutoEditando] = useState<ListaProdutos200Item | null>(null)
   const [produtoVisualizando, setProdutoVisualizando] = useState<ListaProdutos200Item | null>(null)
 
-  const { data: produtos = [], refetch } = useListaProdutos()
+  const eventoId = typeof window !== 'undefined'
+    ? Number(localStorage.getItem('selected-team-id')) || undefined
+    : undefined
+
+  const { data: produtos = [], refetch } = useListaProdutos({ eventoId })
   const { mutate: alteraStatus } = useAlteraStatusProduto()
 
   const totalProdutos = produtos.length
@@ -208,6 +212,7 @@ export default function ProdutosPage() {
         open={modalAberto}
         onOpenChange={setModalAberto}
         onSuccess={() => refetch()}
+        eventoId={eventoId}
       />
 
       <ModalVisualizacaoProduto

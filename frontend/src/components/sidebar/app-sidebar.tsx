@@ -42,6 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const eventTeams = (eventos ?? [])
       .filter((e) => e.ativo)
       .map((e) => ({
+        id: e.id,
         name: e.nome,
         logo: CalendarCheck,
         plan: e.categoria,

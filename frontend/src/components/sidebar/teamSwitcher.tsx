@@ -1,15 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { ChevronsUpDown, Plus } from "lucide-react"
+import { ChevronsUpDown } from "lucide-react"
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/src/components/ui/dropdown-menu"
 import {
@@ -26,13 +24,28 @@ export function TeamSwitcher({
   teams,
 }: {
   teams: {
+    id?: number
     name: string
     logo: React.ElementType
     plan: string
   }[]
 }) {
   const { isMobile } = useSidebar()
-  const [activeTeam, setActiveTeam] = React.useState(teams[0])
+
+  const [activeTeam, setActiveTeam] = React.useState(() => {
+    if (typeof window === 'undefined') return teams[0]
+    const saved = localStorage.getItem('selected-team')
+    return teams.find(t => t.name === saved) ?? teams[0]
+  })
+
+  React.useEffect(() => {
+    const saved = localStorage.getItem('selected-team')
+    const found = teams.find(t => t.name === saved)
+    if (found) {
+      setActiveTeam(found)
+      if (found.id != null) localStorage.setItem('selected-team-id', String(found.id))
+    }
+  }, [teams])
 
   if (!activeTeam) {
     return null
@@ -70,28 +83,32 @@ export function TeamSwitcher({
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-muted-foreground text-xs">
-              Empresas
+              Eventos
             </DropdownMenuLabel>
-            {teams.map((team, index) => (
+            {teams.slice(1).map((team) => (
               <DropdownMenuItem
                 key={team.name}
-                onClick={() => setActiveTeam(team)}
+                onClick={() => {
+                setActiveTeam(team)
+                localStorage.setItem('selected-team', team.name)
+                if (team.id != null) localStorage.setItem('selected-team-id', String(team.id))
+                else localStorage.removeItem('selected-team-id')
+              }}
                 className="gap-2 p-2"
               >
                 <div className="flex size-6 items-center justify-center rounded-md border">
                   <team.logo className="size-3.5 shrink-0" />
                 </div>
                 {team.name}
-                <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
               </DropdownMenuItem>
             ))}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="gap-2 p-2">
+            {/* <DropdownMenuSeparator /> */}
+            {/* <DropdownMenuItem className="gap-2 p-2">
               <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
                 <Plus className="size-4" />
               </div>
               <div className="text-muted-foreground font-medium">Add team</div>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

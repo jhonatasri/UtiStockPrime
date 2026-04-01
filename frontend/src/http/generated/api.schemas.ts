@@ -213,6 +213,10 @@ export type ListaEvento200 = {
   usuariosIds: number[];
 };
 
+export type ListaProdutosParams = {
+eventoId?: number;
+};
+
 export type ListaProdutos200ItemTipoArmazenamento = typeof ListaProdutos200ItemTipoArmazenamento[keyof typeof ListaProdutos200ItemTipoArmazenamento];
 
 
@@ -263,6 +267,8 @@ export type ListaProdutos200Item = {
   mlPorDose?: number | null;
   /** @nullable */
   dosesPorUnidade?: number | null;
+  /** @nullable */
+  eventoId?: number | null;
 };
 
 export type CriaProdutoBodyTipoArmazenamento = typeof CriaProdutoBodyTipoArmazenamento[keyof typeof CriaProdutoBodyTipoArmazenamento];
@@ -313,6 +319,7 @@ export type CriaProdutoBody = {
   volumePorUnidade?: number;
   mlPorDose?: number;
   dosesPorUnidade?: number;
+  eventoId?: number;
 };
 
 export type CriaProduto201 = {
@@ -369,6 +376,8 @@ export type ListaProduto200 = {
   mlPorDose?: number | null;
   /** @nullable */
   dosesPorUnidade?: number | null;
+  /** @nullable */
+  eventoId?: number | null;
 };
 
 export type AlteraProdutoBodyTipoArmazenamento = typeof AlteraProdutoBodyTipoArmazenamento[keyof typeof AlteraProdutoBodyTipoArmazenamento];
@@ -419,6 +428,7 @@ export type AlteraProdutoBody = {
   volumePorUnidade?: number;
   mlPorDose?: number;
   dosesPorUnidade?: number;
+  eventoId?: number;
 };
 
 export type AlteraProduto200 = { [key: string]: unknown };
