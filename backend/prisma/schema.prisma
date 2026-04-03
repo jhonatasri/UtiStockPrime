@@ -52,6 +52,7 @@ model Usuarios {
   descricao     String?
   rotasUsuarios   RotasUsuarios[]
   eventosUsuarios EventosUsuarios[]
+  barUsuarios     BarUsuarios[]
 
   @@map("usuarios")
 }
@@ -93,6 +94,9 @@ model Eventos {
   responsavelEmail    String?
   usuarios            EventosUsuarios[]
   produtos            Produtos[]
+  bares               Bares[]
+  entradas            Entradas[]
+  saidas              Saidas[]
 
   @@map("eventos")
 }
@@ -116,8 +120,115 @@ model Produtos {
   dosesPorUnidade     Float?
   eventoId            Int?
   evento              Eventos?           @relation(fields: [eventoId], references: [id], onDelete: SetNull)
+  barProdutos         BarProdutos[]
+  entradaItens        EntradaItens[]
+  saidaItens          SaidaItens[]
 
   @@map("produtos")
+}
+
+model Bares {
+  id          Int           @id @default(autoincrement())
+  nome        String
+  liderNome   String?
+  area        String?
+  setor       String?
+  descricao   String?
+  status      String        @default("FECHADO")
+  ativo       Boolean       @default(false)
+  eventoId    Int?
+  evento      Eventos?      @relation(fields: [eventoId], references: [id], onDelete: SetNull)
+  produtos    BarProdutos[]
+  entradaItens EntradaItens[]
+  saidaItens   SaidaItens[]
+  barUsuarios  BarUsuarios[]
+
+  @@map("bares")
+}
+
+model BarUsuarios {
+  id        Int      @id @default(autoincrement())
+  barId     Int
+  usuarioId Int
+
+  bar     Bares    @relation(fields: [barId], references: [id], onDelete: Cascade)
+  usuario Usuarios @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@unique([barId, usuarioId])
+  @@map("barUsuarios")
+}
+
+model BarProdutos {
+  id        Int      @id @default(autoincrement())
+  barId     Int
+  produtoId Int
+
+  bar     Bares    @relation(fields: [barId], references: [id], onDelete: Cascade)
+  produto Produtos @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+
+  @@unique([barId, produtoId])
+  @@map("barProdutos")
+}
+
+model Entradas {
+  id              Int            @id @default(autoincrement())
+  dataHora        DateTime       @default(now())
+  tipoEntrada     String
+  numeroDocumento String?
+  fornecedor      String?
+  observacoes     String?
+  eventoId        Int?
+  evento          Eventos?       @relation(fields: [eventoId], references: [id], onDelete: SetNull)
+  itens           EntradaItens[]
+
+  @@map("entradas")
+}
+
+model EntradaItens {
+  id          Int       @id @default(autoincrement())
+  entradaId   Int
+  produtoId   Int
+  barId       Int
+  loteSerie   String?
+  validade    DateTime?
+  quantidade  Int
+  precoVenda  Float
+  localizacao String?
+
+  entrada Entradas @relation(fields: [entradaId], references: [id], onDelete: Cascade)
+  produto Produtos @relation(fields: [produtoId], references: [id])
+  bar     Bares    @relation(fields: [barId], references: [id])
+
+  @@map("entradaItens")
+}
+
+model Saidas {
+  id              Int           @id @default(autoincrement())
+  dataHora        DateTime      @default(now())
+  tipoSaida       String
+  numeroDocumento String?
+  observacoes     String?
+  eventoId        Int?
+  evento          Eventos?      @relation(fields: [eventoId], references: [id], onDelete: SetNull)
+  itens           SaidaItens[]
+
+  @@map("saidas")
+}
+
+model SaidaItens {
+  id          Int      @id @default(autoincrement())
+  saidaId     Int
+  produtoId   Int
+  barId       Int
+  quantidade  Int
+  motivo      String?
+  localizacao String?
+
+  saida   Saidas   @relation(fields: [saidaId], references: [id], onDelete: Cascade)
+  produto Produtos @relation(fields: [produtoId], references: [id])
+  bar     Bares    @relation(fields: [barId], references: [id])
+
+  @@map("saidaItens")
 }
 
 model EventosUsuarios {

@@ -445,3 +445,271 @@ export type AlteraStatusProdutoBody = {
 
 export type AlteraStatusProduto200 = { [key: string]: unknown };
 
+export type ListaBaresParams = {
+eventoId?: number;
+};
+
+export type ListaBares200Item = {
+  id: number;
+  nome: string;
+  /** @nullable */
+  liderNome?: string | null;
+  /** @nullable */
+  area?: string | null;
+  /** @nullable */
+  setor?: string | null;
+  /** @nullable */
+  descricao?: string | null;
+  status: string;
+  ativo: boolean;
+  /** @nullable */
+  eventoId?: number | null;
+  qtdProdutos: number;
+};
+
+export type CriaBarBody = {
+  nome: string;
+  liderNome?: string;
+  area?: string;
+  setor?: string;
+  descricao?: string;
+  status?: string;
+  ativo?: boolean;
+  eventoId?: number;
+  produtosIds?: number[];
+  usuariosIds?: number[];
+};
+
+export type CriaBar201 = {
+  id: number;
+};
+
+export type ListaBar200ProdutosItem = {
+  id: number;
+  nome: string;
+  categoria: string;
+  unidadeMedida: string;
+};
+
+export type ListaBar200UsuariosItem = {
+  id: number;
+  nome: string;
+  email: string;
+};
+
+export type ListaBar200 = {
+  id: number;
+  nome: string;
+  /** @nullable */
+  liderNome?: string | null;
+  /** @nullable */
+  area?: string | null;
+  /** @nullable */
+  setor?: string | null;
+  /** @nullable */
+  descricao?: string | null;
+  status: string;
+  ativo: boolean;
+  /** @nullable */
+  eventoId?: number | null;
+  qtdProdutos: number;
+  produtos: ListaBar200ProdutosItem[];
+  usuarios: ListaBar200UsuariosItem[];
+};
+
+export type AlteraBarBody = {
+  nome: string;
+  liderNome?: string;
+  area?: string;
+  setor?: string;
+  descricao?: string;
+  status?: string;
+  ativo?: boolean;
+  eventoId?: number;
+  produtosIds?: number[];
+  usuariosIds?: number[];
+};
+
+export type AlteraBar200 = { [key: string]: unknown };
+
+export type ListaMovimentacoesBar200Item = {
+  id: number;
+  tipo: string;
+  produtoId: number;
+  produtoNome: string;
+  produtoCodigo: string;
+  produtoCategoria: string;
+  produtoUnidadeMedida: string;
+  quantidade: number;
+  dataHora: string;
+};
+
+export type AlteraAtivoBarBody = {
+  ativo: boolean;
+};
+
+export type AlteraAtivoBar200 = { [key: string]: unknown };
+
+export type CriaEntradaBodyItensItem = {
+  produtoId: number;
+  barId: number;
+  loteSerie?: string;
+  validade?: string;
+  /**
+   * @minimum 1
+   * @maximum 9007199254740991
+   */
+  quantidade: number;
+  /** @minimum 0 */
+  precoVenda: number;
+  localizacao?: string;
+};
+
+export type CriaEntradaBody = {
+  dataHora?: string;
+  tipoEntrada: string;
+  numeroDocumento?: string;
+  fornecedor?: string;
+  observacoes?: string;
+  eventoId?: number;
+  /** @minItems 1 */
+  itens: CriaEntradaBodyItensItem[];
+};
+
+export type CriaEntrada201 = {
+  id: number;
+};
+
+export type ListaEntradasParams = {
+eventoId?: number;
+};
+
+export type ListaEntradas200Item = {
+  id: number;
+  dataHora: string;
+  tipoEntrada: string;
+  /** @nullable */
+  numeroDocumento?: string | null;
+  /** @nullable */
+  fornecedor?: string | null;
+  /** @nullable */
+  observacoes?: string | null;
+  /** @nullable */
+  eventoId?: number | null;
+  totalItens: number;
+  totalQuantidade: number;
+  valorTotal: number;
+};
+
+export type ListaEntrada200ItensItem = {
+  id: number;
+  produtoId: number;
+  produtoNome: string;
+  produtoCodigo: string;
+  produtoCategoria: string;
+  produtoUnidadeMedida: string;
+  barId: number;
+  barNome: string;
+  /** @nullable */
+  loteSerie?: string | null;
+  /** @nullable */
+  validade?: string | null;
+  quantidade: number;
+  precoVenda: number;
+  /** @nullable */
+  localizacao?: string | null;
+};
+
+export type ListaEntrada200 = {
+  id: number;
+  dataHora: string;
+  tipoEntrada: string;
+  /** @nullable */
+  numeroDocumento?: string | null;
+  /** @nullable */
+  fornecedor?: string | null;
+  /** @nullable */
+  observacoes?: string | null;
+  /** @nullable */
+  eventoId?: number | null;
+  totalItens: number;
+  totalQuantidade: number;
+  valorTotal: number;
+  itens: ListaEntrada200ItensItem[];
+};
+
+export type CriaSaidaBodyItensItem = {
+  produtoId: number;
+  barId: number;
+  /**
+   * @minimum 1
+   * @maximum 9007199254740991
+   */
+  quantidade: number;
+  motivo?: string;
+  localizacao?: string;
+};
+
+export type CriaSaidaBody = {
+  dataHora?: string;
+  tipoSaida: string;
+  numeroDocumento?: string;
+  observacoes?: string;
+  eventoId?: number;
+  /** @minItems 1 */
+  itens: CriaSaidaBodyItensItem[];
+};
+
+export type CriaSaida201 = {
+  id: number;
+};
+
+export type ListaSaidasParams = {
+eventoId?: number;
+};
+
+export type ListaSaidas200Item = {
+  id: number;
+  dataHora: string;
+  tipoSaida: string;
+  /** @nullable */
+  numeroDocumento?: string | null;
+  /** @nullable */
+  observacoes?: string | null;
+  /** @nullable */
+  eventoId?: number | null;
+  totalItens: number;
+  totalQuantidade: number;
+};
+
+export type ListaSaida200ItensItem = {
+  id: number;
+  produtoId: number;
+  produtoNome: string;
+  produtoCodigo: string;
+  produtoCategoria: string;
+  produtoUnidadeMedida: string;
+  barId: number;
+  barNome: string;
+  quantidade: number;
+  /** @nullable */
+  motivo?: string | null;
+  /** @nullable */
+  localizacao?: string | null;
+};
+
+export type ListaSaida200 = {
+  id: number;
+  dataHora: string;
+  tipoSaida: string;
+  /** @nullable */
+  numeroDocumento?: string | null;
+  /** @nullable */
+  observacoes?: string | null;
+  /** @nullable */
+  eventoId?: number | null;
+  totalItens: number;
+  totalQuantidade: number;
+  itens: ListaSaida200ItensItem[];
+};
+

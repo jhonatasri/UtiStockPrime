@@ -1552,6 +1552,420 @@
           }
         }
       }
+    },
+    "/bares": {
+      "get": {
+        "operationId": "listaBares",
+        "tags": [
+          "Bares"
+        ],
+        "description": "Lista todos os bares do sistema",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "eventoId",
+            "required": false
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "nome": {
+                        "type": "string"
+                      },
+                      "liderNome": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "area": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "setor": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "descricao": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "ativo": {
+                        "type": "boolean"
+                      },
+                      "eventoId": {
+                        "type": "number",
+                        "nullable": true
+                      },
+                      "qtdProdutos": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "nome",
+                      "status",
+                      "ativo",
+                      "qtdProdutos"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "criaBar",
+        "tags": [
+          "Bares"
+        ],
+        "description": "Cria um bar no sistema",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "liderNome": {
+                    "type": "string"
+                  },
+                  "area": {
+                    "type": "string"
+                  },
+                  "setor": {
+                    "type": "string"
+                  },
+                  "descricao": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "default": "FECHADO",
+                    "type": "string"
+                  },
+                  "ativo": {
+                    "default": false,
+                    "type": "boolean"
+                  },
+                  "eventoId": {
+                    "type": "number"
+                  },
+                  "produtosIds": {
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "required": [
+                  "nome"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bar/{id}": {
+      "get": {
+        "operationId": "listaBar",
+        "tags": [
+          "Bares"
+        ],
+        "description": "Busca um bar pelo ID",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "liderNome": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "area": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "setor": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "descricao": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "eventoId": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "qtdProdutos": {
+                      "type": "number"
+                    },
+                    "produtos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "nome": {
+                            "type": "string"
+                          },
+                          "categoria": {
+                            "type": "string"
+                          },
+                          "unidadeMedida": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "nome",
+                          "categoria",
+                          "unidadeMedida"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "nome",
+                    "status",
+                    "ativo",
+                    "qtdProdutos",
+                    "produtos"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "alteraBar",
+        "tags": [
+          "Bares"
+        ],
+        "description": "Altera os dados de um bar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "liderNome": {
+                    "type": "string"
+                  },
+                  "area": {
+                    "type": "string"
+                  },
+                  "setor": {
+                    "type": "string"
+                  },
+                  "descricao": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "default": "FECHADO",
+                    "type": "string"
+                  },
+                  "ativo": {
+                    "default": false,
+                    "type": "boolean"
+                  },
+                  "eventoId": {
+                    "type": "number"
+                  },
+                  "produtosIds": {
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "required": [
+                  "nome"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bar/{id}/ativo": {
+      "patch": {
+        "operationId": "alteraAtivoBar",
+        "tags": [
+          "Bares"
+        ],
+        "description": "Altera o status ativo de um bar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ativo": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "ativo"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "servers": [
