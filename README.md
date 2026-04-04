@@ -82,7 +82,7 @@ Este é um sistema de controle de estoque desenvolvido com uma arquitetura full-
    npm install
    ```
 
-3. Configure o banco de dados (certifique-se de ter um banco PostgreSQL rodando):
+3. Configure o banco de dados (certifique-se de ter um banco mysql rodando):
 
    ```bash
    npx prisma migrate dev
