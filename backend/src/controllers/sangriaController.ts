@@ -40,7 +40,13 @@ export const sangriaController: FastifyPluginAsyncZod = async (app) => {
           dataHora: z.string().optional(),
           eventoId: z.number().optional(),
         }),
-        response: { 201: z.object({ id: z.number() }) },
+        response: {
+          201: z.object({ id: z.number() }),
+          409: z.object({
+            message: z.string(),
+            id: z.number(),
+          }),
+        },
       },
     },
     async (req, res) => {
@@ -57,7 +63,10 @@ export const sangriaController: FastifyPluginAsyncZod = async (app) => {
       if (aberta) {
         return res
           .status(409)
-          .send({ message: "Já existe uma sangria aberta.", id: aberta.id } as any);
+          .send({
+            message: "Já existe uma sangria aberta.",
+            id: aberta.id,
+          } as any);
       }
 
       const sangria = await prisma.sangrias.create({
@@ -140,7 +149,11 @@ export const sangriaController: FastifyPluginAsyncZod = async (app) => {
       const { id } = req.params;
       const sangria = await prisma.sangrias.findUniqueOrThrow({
         where: { id },
-        include: { bar: true, usuario: true, itens: { include: { produto: true } } },
+        include: {
+          bar: true,
+          usuario: true,
+          itens: { include: { produto: true } },
+        },
       });
       return res.send({
         id: sangria.id,
@@ -190,7 +203,10 @@ export const sangriaController: FastifyPluginAsyncZod = async (app) => {
       const { itens } = req.body;
 
       const itensFiltrados = itens.filter((i) => i.quantidade > 0);
-      const totalQuantidade = itensFiltrados.reduce((acc, i) => acc + i.quantidade, 0);
+      const totalQuantidade = itensFiltrados.reduce(
+        (acc, i) => acc + i.quantidade,
+        0
+      );
 
       await prisma.sangriaItens.deleteMany({ where: { sangriaId: id } });
 
