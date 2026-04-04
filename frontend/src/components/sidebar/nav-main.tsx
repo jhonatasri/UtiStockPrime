@@ -161,7 +161,7 @@ export function NavMain({ items, hasEvento }: { items: NavItem[]; hasEvento: boo
 
                       return (
                         <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton asChild={!subBloqueado} disabled={subBloqueado}>
+                          <SidebarMenuSubButton asChild={!subBloqueado}>
                             {subBloqueado ? (
                               <div
                                 className="flex items-center gap-2 opacity-40 cursor-not-allowed select-none px-2"
