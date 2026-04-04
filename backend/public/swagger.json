@@ -1568,6 +1568,14 @@
             "in": "query",
             "name": "eventoId",
             "required": false
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "usuarioId",
+            "required": false
           }
         ],
         "security": [
@@ -1675,6 +1683,13 @@
                     "type": "number"
                   },
                   "produtosIds": {
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "usuariosIds": {
                     "default": [],
                     "type": "array",
                     "items": {
@@ -1809,6 +1824,29 @@
                         ],
                         "additionalProperties": false
                       }
+                    },
+                    "usuarios": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "nome": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "nome",
+                          "email"
+                        ],
+                        "additionalProperties": false
+                      }
                     }
                   },
                   "required": [
@@ -1817,7 +1855,8 @@
                     "status",
                     "ativo",
                     "qtdProdutos",
-                    "produtos"
+                    "produtos",
+                    "usuarios"
                   ],
                   "additionalProperties": false
                 }
@@ -1870,6 +1909,13 @@
                     "items": {
                       "type": "number"
                     }
+                  },
+                  "usuariosIds": {
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
                   }
                 },
                 "required": [
@@ -1904,6 +1950,86 @@
                   "type": "object",
                   "properties": {},
                   "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bar/{id}/movimentacoes": {
+      "get": {
+        "operationId": "listaMovimentacoesBar",
+        "tags": [
+          "Bares"
+        ],
+        "description": "Lista as movimentações (entradas e saídas) de um bar",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "tipo": {
+                        "type": "string"
+                      },
+                      "produtoId": {
+                        "type": "number"
+                      },
+                      "produtoNome": {
+                        "type": "string"
+                      },
+                      "produtoCodigo": {
+                        "type": "string"
+                      },
+                      "produtoCategoria": {
+                        "type": "string"
+                      },
+                      "produtoUnidadeMedida": {
+                        "type": "string"
+                      },
+                      "quantidade": {
+                        "type": "number"
+                      },
+                      "dataHora": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "tipo",
+                      "produtoId",
+                      "produtoNome",
+                      "produtoCodigo",
+                      "produtoCategoria",
+                      "produtoUnidadeMedida",
+                      "quantidade",
+                      "dataHora"
+                    ],
+                    "additionalProperties": false
+                  }
                 }
               }
             }
@@ -1960,6 +2086,1411 @@
                   "type": "object",
                   "properties": {},
                   "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/entradas": {
+      "post": {
+        "operationId": "criaEntrada",
+        "tags": [
+          "Entradas"
+        ],
+        "description": "Registra uma entrada de produtos no estoque",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "dataHora": {
+                    "type": "string"
+                  },
+                  "tipoEntrada": {
+                    "type": "string"
+                  },
+                  "numeroDocumento": {
+                    "type": "string"
+                  },
+                  "fornecedor": {
+                    "type": "string"
+                  },
+                  "observacoes": {
+                    "type": "string"
+                  },
+                  "eventoId": {
+                    "type": "number"
+                  },
+                  "itens": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "produtoId": {
+                          "type": "number"
+                        },
+                        "barId": {
+                          "type": "number"
+                        },
+                        "loteSerie": {
+                          "type": "string"
+                        },
+                        "validade": {
+                          "type": "string"
+                        },
+                        "quantidade": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 9007199254740991
+                        },
+                        "precoVenda": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "localizacao": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "produtoId",
+                        "barId",
+                        "quantidade",
+                        "precoVenda"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "tipoEntrada",
+                  "itens"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "listaEntradas",
+        "tags": [
+          "Entradas"
+        ],
+        "description": "Lista todas as entradas",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "eventoId",
+            "required": false
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "dataHora": {
+                        "type": "string"
+                      },
+                      "tipoEntrada": {
+                        "type": "string"
+                      },
+                      "numeroDocumento": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "fornecedor": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "observacoes": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "eventoId": {
+                        "type": "number",
+                        "nullable": true
+                      },
+                      "totalItens": {
+                        "type": "number"
+                      },
+                      "totalQuantidade": {
+                        "type": "number"
+                      },
+                      "valorTotal": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "dataHora",
+                      "tipoEntrada",
+                      "totalItens",
+                      "totalQuantidade",
+                      "valorTotal"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/entrada/{id}": {
+      "get": {
+        "operationId": "listaEntrada",
+        "tags": [
+          "Entradas"
+        ],
+        "description": "Busca uma entrada pelo ID com todos os itens",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "dataHora": {
+                      "type": "string"
+                    },
+                    "tipoEntrada": {
+                      "type": "string"
+                    },
+                    "numeroDocumento": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "fornecedor": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "observacoes": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "eventoId": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "totalItens": {
+                      "type": "number"
+                    },
+                    "totalQuantidade": {
+                      "type": "number"
+                    },
+                    "valorTotal": {
+                      "type": "number"
+                    },
+                    "itens": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "produtoId": {
+                            "type": "number"
+                          },
+                          "produtoNome": {
+                            "type": "string"
+                          },
+                          "produtoCodigo": {
+                            "type": "string"
+                          },
+                          "produtoCategoria": {
+                            "type": "string"
+                          },
+                          "produtoUnidadeMedida": {
+                            "type": "string"
+                          },
+                          "barId": {
+                            "type": "number"
+                          },
+                          "barNome": {
+                            "type": "string"
+                          },
+                          "loteSerie": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "validade": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "quantidade": {
+                            "type": "number"
+                          },
+                          "precoVenda": {
+                            "type": "number"
+                          },
+                          "localizacao": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "produtoId",
+                          "produtoNome",
+                          "produtoCodigo",
+                          "produtoCategoria",
+                          "produtoUnidadeMedida",
+                          "barId",
+                          "barNome",
+                          "quantidade",
+                          "precoVenda"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "dataHora",
+                    "tipoEntrada",
+                    "totalItens",
+                    "totalQuantidade",
+                    "valorTotal",
+                    "itens"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/saidas": {
+      "post": {
+        "operationId": "criaSaida",
+        "tags": [
+          "Saidas"
+        ],
+        "description": "Registra uma saída de produtos do estoque",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "dataHora": {
+                    "type": "string"
+                  },
+                  "tipoSaida": {
+                    "type": "string"
+                  },
+                  "numeroDocumento": {
+                    "type": "string"
+                  },
+                  "observacoes": {
+                    "type": "string"
+                  },
+                  "eventoId": {
+                    "type": "number"
+                  },
+                  "itens": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "produtoId": {
+                          "type": "number"
+                        },
+                        "barId": {
+                          "type": "number"
+                        },
+                        "quantidade": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 9007199254740991
+                        },
+                        "motivo": {
+                          "type": "string"
+                        },
+                        "localizacao": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "produtoId",
+                        "barId",
+                        "quantidade"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "tipoSaida",
+                  "itens"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "listaSaidas",
+        "tags": [
+          "Saidas"
+        ],
+        "description": "Lista todas as saídas",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "eventoId",
+            "required": false
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "dataHora": {
+                        "type": "string"
+                      },
+                      "tipoSaida": {
+                        "type": "string"
+                      },
+                      "numeroDocumento": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "observacoes": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "eventoId": {
+                        "type": "number",
+                        "nullable": true
+                      },
+                      "totalItens": {
+                        "type": "number"
+                      },
+                      "totalQuantidade": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "dataHora",
+                      "tipoSaida",
+                      "totalItens",
+                      "totalQuantidade"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/saida/{id}": {
+      "get": {
+        "operationId": "listaSaida",
+        "tags": [
+          "Saidas"
+        ],
+        "description": "Busca uma saída pelo ID com todos os itens",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "dataHora": {
+                      "type": "string"
+                    },
+                    "tipoSaida": {
+                      "type": "string"
+                    },
+                    "numeroDocumento": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "observacoes": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "eventoId": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "totalItens": {
+                      "type": "number"
+                    },
+                    "totalQuantidade": {
+                      "type": "number"
+                    },
+                    "itens": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "produtoId": {
+                            "type": "number"
+                          },
+                          "produtoNome": {
+                            "type": "string"
+                          },
+                          "produtoCodigo": {
+                            "type": "string"
+                          },
+                          "produtoCategoria": {
+                            "type": "string"
+                          },
+                          "produtoUnidadeMedida": {
+                            "type": "string"
+                          },
+                          "barId": {
+                            "type": "number"
+                          },
+                          "barNome": {
+                            "type": "string"
+                          },
+                          "quantidade": {
+                            "type": "number"
+                          },
+                          "motivo": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "localizacao": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "produtoId",
+                          "produtoNome",
+                          "produtoCodigo",
+                          "produtoCategoria",
+                          "produtoUnidadeMedida",
+                          "barId",
+                          "barNome",
+                          "quantidade"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "dataHora",
+                    "tipoSaida",
+                    "totalItens",
+                    "totalQuantidade",
+                    "itens"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sangrias": {
+      "post": {
+        "operationId": "criaSangria",
+        "tags": [
+          "Sangrias"
+        ],
+        "description": "Abre uma sangria (recebimento de fichas)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "barId": {
+                    "type": "number"
+                  },
+                  "usuarioId": {
+                    "type": "number"
+                  },
+                  "responsavel": {
+                    "type": "string"
+                  },
+                  "dataHora": {
+                    "type": "string"
+                  },
+                  "eventoId": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "barId",
+                  "usuarioId",
+                  "responsavel"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "id"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "listaSangrias",
+        "tags": [
+          "Sangrias"
+        ],
+        "description": "Lista sangrias filtradas por evento, usuário e/ou status",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "eventoId",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "usuarioId",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "barId",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "status",
+            "required": false
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "barId": {
+                        "type": "number"
+                      },
+                      "barNome": {
+                        "type": "string"
+                      },
+                      "usuarioId": {
+                        "type": "number",
+                        "nullable": true
+                      },
+                      "usuarioNome": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "responsavel": {
+                        "type": "string"
+                      },
+                      "dataHora": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "valorTotal": {
+                        "type": "number"
+                      },
+                      "eventoId": {
+                        "type": "number",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "barId",
+                      "barNome",
+                      "responsavel",
+                      "dataHora",
+                      "status",
+                      "valorTotal"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sangria/{id}": {
+      "get": {
+        "operationId": "listaSangria",
+        "tags": [
+          "Sangrias"
+        ],
+        "description": "Busca uma sangria pelo ID com seus itens",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "barId": {
+                      "type": "number"
+                    },
+                    "barNome": {
+                      "type": "string"
+                    },
+                    "usuarioId": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "usuarioNome": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "responsavel": {
+                      "type": "string"
+                    },
+                    "dataHora": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "valorTotal": {
+                      "type": "number"
+                    },
+                    "eventoId": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "itens": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "produtoId": {
+                            "type": "number"
+                          },
+                          "produtoNome": {
+                            "type": "string"
+                          },
+                          "produtoUnidadeMedida": {
+                            "type": "string"
+                          },
+                          "quantidade": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "produtoId",
+                          "produtoNome",
+                          "produtoUnidadeMedida",
+                          "quantidade"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "barId",
+                    "barNome",
+                    "responsavel",
+                    "dataHora",
+                    "status",
+                    "valorTotal",
+                    "itens"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sangria/{id}/contagem": {
+      "post": {
+        "operationId": "registraContagem",
+        "tags": [
+          "Sangrias"
+        ],
+        "description": "Registra a contagem de fichas e finaliza a sangria",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "itens": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "produtoId": {
+                          "type": "number"
+                        },
+                        "quantidade": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "produtoId",
+                        "quantidade"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "itens"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalQuantidade": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "totalQuantidade"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devolucoes": {
+      "post": {
+        "operationId": "criaDevolucao",
+        "tags": [
+          "Devoluções"
+        ],
+        "description": "Registra uma devolução de produtos de um bar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "barId": {
+                    "type": "number"
+                  },
+                  "usuarioId": {
+                    "type": "number"
+                  },
+                  "responsavel": {
+                    "type": "string"
+                  },
+                  "dataHora": {
+                    "type": "string"
+                  },
+                  "observacoes": {
+                    "type": "string"
+                  },
+                  "eventoId": {
+                    "type": "number"
+                  },
+                  "itens": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "produtoId": {
+                          "type": "number"
+                        },
+                        "quantidade": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "produtoId",
+                        "quantidade"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "barId",
+                  "responsavel",
+                  "itens"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "listaDevolu​coes",
+        "tags": [
+          "Devoluções"
+        ],
+        "description": "Lista devoluções filtradas por evento, usuário e/ou bar",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "eventoId",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "usuarioId",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "barId",
+            "required": false
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "barId": {
+                        "type": "number"
+                      },
+                      "barNome": {
+                        "type": "string"
+                      },
+                      "usuarioId": {
+                        "type": "number",
+                        "nullable": true
+                      },
+                      "usuarioNome": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "responsavel": {
+                        "type": "string"
+                      },
+                      "dataHora": {
+                        "type": "string"
+                      },
+                      "observacoes": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "totalItens": {
+                        "type": "number"
+                      },
+                      "eventoId": {
+                        "type": "number",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "barId",
+                      "barNome",
+                      "responsavel",
+                      "dataHora",
+                      "totalItens"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devolucao/{id}": {
+      "get": {
+        "operationId": "listaDevolucao",
+        "tags": [
+          "Devoluções"
+        ],
+        "description": "Busca uma devolução pelo ID com seus itens",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "barId": {
+                      "type": "number"
+                    },
+                    "barNome": {
+                      "type": "string"
+                    },
+                    "usuarioId": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "usuarioNome": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "responsavel": {
+                      "type": "string"
+                    },
+                    "dataHora": {
+                      "type": "string"
+                    },
+                    "observacoes": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "totalItens": {
+                      "type": "number"
+                    },
+                    "eventoId": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "itens": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "produtoId": {
+                            "type": "number"
+                          },
+                          "produtoNome": {
+                            "type": "string"
+                          },
+                          "produtoUnidadeMedida": {
+                            "type": "string"
+                          },
+                          "quantidade": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "produtoId",
+                          "produtoNome",
+                          "produtoUnidadeMedida",
+                          "quantidade"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "barId",
+                    "barNome",
+                    "responsavel",
+                    "dataHora",
+                    "totalItens",
+                    "itens"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/relatorios/bar": {
+      "get": {
+        "operationId": "relatorioBar",
+        "tags": [
+          "Relatórios"
+        ],
+        "description": "Relatório de movimentações por bar: entradas, saídas, devoluções e saldo por produto",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "barId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "produtoId": {
+                        "type": "number"
+                      },
+                      "produtoNome": {
+                        "type": "string"
+                      },
+                      "produtoCodigo": {
+                        "type": "string"
+                      },
+                      "produtoUnidadeMedida": {
+                        "type": "string"
+                      },
+                      "totalEntrada": {
+                        "type": "number"
+                      },
+                      "totalSaida": {
+                        "type": "number"
+                      },
+                      "totalDevolucao": {
+                        "type": "number"
+                      },
+                      "totalSangria": {
+                        "type": "number"
+                      },
+                      "saldo": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "produtoId",
+                      "produtoNome",
+                      "produtoCodigo",
+                      "produtoUnidadeMedida",
+                      "totalEntrada",
+                      "totalSaida",
+                      "totalDevolucao",
+                      "totalSangria",
+                      "saldo"
+                    ],
+                    "additionalProperties": false
+                  }
                 }
               }
             }

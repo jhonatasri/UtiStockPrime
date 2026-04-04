@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { Plus, Trash2, Check, PackageOpen } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/src/components/dataTable'
 import { ModalAdicionarProduto, ItemEntrada } from './modal-adicionar-produto'
 import { useCriaEntrada } from '@/src/http/generated/entradas/entradas'
+import { AuthContext } from '@/src/providers/AuthContext'
 
 const TIPOS_ENTRADA = [
   'Abastecimento',
@@ -17,20 +18,24 @@ const TIPOS_ENTRADA = [
 ]
 
 export default function EntradasPage() {
+  const { user } = useContext(AuthContext)
+
   const eventoId =
     typeof window !== 'undefined'
       ? Number(localStorage.getItem('selected-team-id')) || undefined
       : undefined
 
+  const usuarioId = user ? Number(user.usuario.id) : undefined
+
   const [tipoEntrada, setTipoEntrada] = useState('')
   const [numeroDocumento, setNumeroDocumento] = useState('')
   const [fornecedor, setFornecedor] = useState('')
   const [observacoes, setObservacoes] = useState('')
-  const [dataHora, setDataHora] = useState(() => {
+  const dataHora = useMemo(() => {
     const now = new Date()
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset())
     return now.toISOString().slice(0, 16)
-  })
+  }, [])
 
   const [itens, setItens] = useState<ItemEntrada[]>([])
   const [adicionandoProduto, setAdicionandoProduto] = useState(false)
@@ -187,9 +192,9 @@ export default function EntradasPage() {
             <label className="text-sm font-medium text-[#1F2933]">Data/Hora da Entrada</label>
             <input
               type="datetime-local"
-              className="rounded-md border border-[#D1D5DB] bg-[#F5F7FA] px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#253158]"
+              className="rounded-md border border-[#D1D5DB] bg-[#F5F7FA] px-3 py-2 text-sm outline-none cursor-not-allowed opacity-70"
               value={dataHora}
-              onChange={(e) => setDataHora(e.target.value)}
+              readOnly
             />
           </div>
 
@@ -252,6 +257,7 @@ export default function EntradasPage() {
       {adicionandoProduto && (
         <ModalAdicionarProduto
           eventoId={eventoId}
+          usuarioId={usuarioId}
           onAdicionar={handleAdicionarProduto}
           onCancelar={() => setAdicionandoProduto(false)}
         />

@@ -447,6 +447,7 @@ export type AlteraStatusProduto200 = { [key: string]: unknown };
 
 export type ListaBaresParams = {
 eventoId?: number;
+usuarioId?: number;
 };
 
 export type ListaBares200Item = {
@@ -725,6 +726,11 @@ export type CriaSangria201 = {
   id: number;
 };
 
+export type CriaSangria409 = {
+  message: string;
+  id: number;
+};
+
 export type ListaSangriasParams = {
 eventoId?: number;
 usuarioId?: number;
@@ -788,5 +794,77 @@ export type RegistraContagemBody = {
 
 export type RegistraContagem200 = {
   totalQuantidade: number;
+};
+
+export type CriaDevolucaoBodyItensItem = {
+  produtoId: number;
+  /**
+   * @minimum 1
+   * @maximum 9007199254740991
+   */
+  quantidade: number;
+};
+
+export type CriaDevolucaoBody = {
+  barId: number;
+  usuarioId?: number;
+  responsavel: string;
+  dataHora?: string;
+  observacoes?: string;
+  eventoId?: number;
+  itens: CriaDevolucaoBodyItensItem[];
+};
+
+export type CriaDevolucao201 = {
+  id: number;
+};
+
+export type ListaDevoluCoesParams = {
+eventoId?: number;
+usuarioId?: number;
+barId?: number;
+};
+
+export type ListaDevoluCoes200Item = {
+  id: number;
+  barId: number;
+  barNome: string;
+  /** @nullable */
+  usuarioId?: number | null;
+  /** @nullable */
+  usuarioNome?: string | null;
+  responsavel: string;
+  dataHora: string;
+  /** @nullable */
+  observacoes?: string | null;
+  totalItens: number;
+  /** @nullable */
+  eventoId?: number | null;
+};
+
+export type ListaDevolucao200ItensItem = {
+  id: number;
+  produtoId: number;
+  produtoNome: string;
+  produtoUnidadeMedida: string;
+  quantidade: number;
+};
+
+export type ListaDevolucao200 = {
+  id: number;
+  barId: number;
+  barNome: string;
+  /** @nullable */
+  usuarioId?: number | null;
+  /** @nullable */
+  usuarioNome?: string | null;
+  responsavel: string;
+  dataHora: string;
+  /** @nullable */
+  observacoes?: string | null;
+  totalItens: number;
+  /** @nullable */
+  eventoId?: number | null;
+  itens: ListaDevolucao200ItensItem[];
 };
 

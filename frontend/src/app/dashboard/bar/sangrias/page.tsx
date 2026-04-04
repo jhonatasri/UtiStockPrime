@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { CalendarDays, User, Link2, Check, ArrowRight } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
@@ -70,15 +70,15 @@ export default function SangriasPage() {
     }
   }, [sangriasAbertas, verificando, router])
 
-  const [dataHora, setDataHora] = useState(() => {
+  const dataHora = useMemo(() => {
     const now = new Date()
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset())
     return now.toISOString().slice(0, 16)
-  })
+  }, [])
   const [barId, setBarId] = useState<number | ''>('')
   const [responsavel, setResponsavel] = useState('')
 
-  const { data: bares = [] } = useListaBares({ eventoId })
+  const { data: bares = [] } = useListaBares({ eventoId, usuarioId })
   const baresAtivos = bares.filter((b) => b.ativo)
   const barSelecionado = baresAtivos.find((b) => b.id === barId)
 
@@ -148,13 +148,13 @@ export default function SangriasPage() {
           {/* Data e Hora */}
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium text-[#1F2933]">Data e Hora do Recebimento</label>
-            <div className="flex items-center gap-2 rounded-md border border-[#D1D5DB] bg-[#F5F7FA] px-3 py-2">
+            <div className="flex items-center gap-2 rounded-md border border-[#D1D5DB] bg-[#F5F7FA] px-3 py-2 cursor-not-allowed opacity-70">
               <CalendarDays className="h-4 w-4 shrink-0 text-[#6B7280]" />
               <input
                 type="datetime-local"
-                className="flex-1 bg-transparent text-sm outline-none"
+                className="flex-1 bg-transparent text-sm outline-none cursor-not-allowed"
                 value={dataHora}
-                onChange={(e) => setDataHora(e.target.value)}
+                readOnly
               />
             </div>
           </div>

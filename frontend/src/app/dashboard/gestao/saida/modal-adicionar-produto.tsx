@@ -22,11 +22,12 @@ export interface ItemSaida {
 
 interface Props {
   eventoId?: number
+  usuarioId?: number
   onAdicionar: (item: ItemSaida) => void
   onCancelar: () => void
 }
 
-export function ModalAdicionarProdutoSaida({ eventoId, onAdicionar, onCancelar }: Props) {
+export function ModalAdicionarProdutoSaida({ eventoId, usuarioId, onAdicionar, onCancelar }: Props) {
   const [busca, setBusca] = useState('')
   const [produtoSelecionado, setProdutoSelecionado] = useState<ListaProdutos200Item | null>(null)
   const [barId, setBarId] = useState<number | ''>('')
@@ -35,7 +36,7 @@ export function ModalAdicionarProdutoSaida({ eventoId, onAdicionar, onCancelar }
   const [localizacao, setLocalizacao] = useState('')
 
   const { data: produtos = [] } = useListaProdutos({ eventoId })
-  const { data: bares = [] } = useListaBares({ eventoId })
+  const { data: bares = [] } = useListaBares({ eventoId, usuarioId })
 
   const produtosAtivos = produtos.filter((p) => p.ativo)
   const baresAtivos = bares.filter((b) => b.ativo)

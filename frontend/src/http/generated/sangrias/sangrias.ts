@@ -26,6 +26,7 @@ import type {
 
 import type {
   CriaSangria201,
+  CriaSangria409,
   CriaSangriaBody,
   ListaSangria200,
   ListaSangrias200Item,
@@ -58,7 +59,7 @@ export const criaSangria = (
   
 
 
-export const getCriaSangriaMutationOptions = <TError = unknown,
+export const getCriaSangriaMutationOptions = <TError = CriaSangria409,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof criaSangria>>, TError,{data: CriaSangriaBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof criaSangria>>, TError,{data: CriaSangriaBody}, TContext> => {
 
@@ -87,9 +88,9 @@ const {mutation: mutationOptions} = options ?
 
     export type CriaSangriaMutationResult = NonNullable<Awaited<ReturnType<typeof criaSangria>>>
     export type CriaSangriaMutationBody = CriaSangriaBody
-    export type CriaSangriaMutationError = unknown
+    export type CriaSangriaMutationError = CriaSangria409
 
-    export const useCriaSangria = <TError = unknown,
+    export const useCriaSangria = <TError = CriaSangria409,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof criaSangria>>, TError,{data: CriaSangriaBody}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof criaSangria>>,

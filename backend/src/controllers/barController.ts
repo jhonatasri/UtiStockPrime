@@ -54,14 +54,20 @@ export const barController: FastifyPluginAsyncZod = async (app) => {
         tags: ["Bares"],
         operationId: "listaBares",
         security: [{ BearerAuth: [] }],
-        querystring: z.object({ eventoId: z.coerce.number().optional() }),
+        querystring: z.object({
+          eventoId: z.coerce.number().optional(),
+          usuarioId: z.coerce.number().optional(),
+        }),
         response: { 200: z.array(barResponse) },
       },
     },
     async (req, res) => {
-      const { eventoId } = req.query;
+      const { eventoId, usuarioId } = req.query;
       const bares = await prisma.bares.findMany({
-        where: eventoId ? { eventoId } : undefined,
+        where: {
+          ...(eventoId ? { eventoId } : {}),
+          ...(usuarioId ? { barUsuarios: { some: { usuarioId } } } : {}),
+        },
         include: { _count: { select: { produtos: true } } },
         orderBy: { id: "asc" },
       });

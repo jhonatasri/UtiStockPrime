@@ -8,6 +8,8 @@ import { barController } from "./controllers/barController";
 import { entradaController } from "./controllers/entradaController";
 import { saidaController } from "./controllers/saidaController";
 import { sangriaController } from "./controllers/sangriaController";
+import { devolucaoController } from "./controllers/devolucaoController";
+import { relatorioController } from "./controllers/relatorioController";
 
 export async function routes(app: FastifyInstance) {
   app.addHook("onRequest", async (req, res) => {
@@ -26,4 +28,6 @@ export async function routes(app: FastifyInstance) {
   app.register(entradaController);
   app.register(saidaController);
   app.register(sangriaController);
+  app.register(devolucaoController);
+  app.register(relatorioController);
 }

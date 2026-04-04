@@ -54,6 +54,7 @@ model Usuarios {
   eventosUsuarios EventosUsuarios[]
   barUsuarios     BarUsuarios[]
   sangrias        Sangrias[]
+  devolucoes      Devolucoes[]
 
   @@map("usuarios")
 }
@@ -99,6 +100,7 @@ model Eventos {
   entradas            Entradas[]
   saidas              Saidas[]
   sangrias            Sangrias[]
+  devolucoes          Devolucoes[]
 
   @@map("eventos")
 }
@@ -126,6 +128,7 @@ model Produtos {
   entradaItens        EntradaItens[]
   saidaItens          SaidaItens[]
   sangriaItens        SangriaItens[]
+  devolucaoItens      DevolucaoItens[]
 
   @@map("produtos")
 }
@@ -146,6 +149,7 @@ model Bares {
   saidaItens   SaidaItens[]
   barUsuarios  BarUsuarios[]
   sangrias     Sangrias[]
+  devolucoes   Devolucoes[]
 
   @@map("bares")
 }
@@ -274,4 +278,33 @@ model EventosUsuarios {
   usuario  Usuarios @relation(fields: [usuariosId], references: [id], onDelete: Cascade)
 
   @@map("eventosUsuarios")
+}
+
+model Devolucoes {
+  id          Int              @id @default(autoincrement())
+  barId       Int
+  usuarioId   Int?
+  responsavel String
+  dataHora    DateTime         @default(now())
+  observacoes String?
+  eventoId    Int?
+
+  bar     Bares            @relation(fields: [barId], references: [id])
+  usuario Usuarios?        @relation(fields: [usuarioId], references: [id])
+  evento  Eventos?         @relation(fields: [eventoId], references: [id], onDelete: SetNull)
+  itens   DevolucaoItens[]
+
+  @@map("devolucoes")
+}
+
+model DevolucaoItens {
+  id          Int @id @default(autoincrement())
+  devolucaoId Int
+  produtoId   Int
+  quantidade  Int
+
+  devolucao Devolucoes @relation(fields: [devolucaoId], references: [id], onDelete: Cascade)
+  produto   Produtos   @relation(fields: [produtoId], references: [id])
+
+  @@map("devolucaoItens")
 }
