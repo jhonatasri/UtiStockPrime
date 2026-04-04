@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest) {
     const response = await fetch(
       // `http://localhost:3333/rotas-usuarios/${userId}`,
       // `http://82.197.67.88:3333/rotas-usuarios/${userId}`,
-      `http://api.stockprime.utivirtual.com.br/rotas-usuarios/${userId}`,
+      `https://api.stockprime.utivirtual.com.br/rotas-usuarios/${userId}`,
       {
         headers: {
           Authorization: `Bearer ${authToken}`,

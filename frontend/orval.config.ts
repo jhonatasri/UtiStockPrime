@@ -4,7 +4,7 @@ export default defineConfig({
   api: {
     // input: "http://localhost:3333/docs/swagger",
     // input: "http://82.197.67.88:3333/docs/swagger",
-    input: "http://api.stockprime.utivirtual.com.br/docs/swagger",
+    input: "https://api.stockprime.utivirtual.com.br/docs/swagger",
     output: {
       clean: true,
       mode: "tags-split",
