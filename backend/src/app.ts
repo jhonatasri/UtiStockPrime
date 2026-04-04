@@ -38,8 +38,8 @@ app.register(fastifySocket, {
 
 app.register(fastify_cors, {
   origin: "*",
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  // allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 });
 
 app.register(fastifyBcrypt, {
