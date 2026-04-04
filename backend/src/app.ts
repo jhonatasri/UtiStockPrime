@@ -66,6 +66,10 @@ app.register(fastifySwagger, {
         url: "http://localhost:3333",
         description: "Desenvolvimento",
       },
+      {
+        url: "http://api.stockprime.utivirtual.com.br",
+        description: "Produção",
+      },
     ],
     components: {
       securitySchemes: {
