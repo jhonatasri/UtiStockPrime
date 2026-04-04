@@ -713,3 +713,80 @@ export type ListaSaida200 = {
   itens: ListaSaida200ItensItem[];
 };
 
+export type CriaSangriaBody = {
+  barId: number;
+  usuarioId: number;
+  responsavel: string;
+  dataHora?: string;
+  eventoId?: number;
+};
+
+export type CriaSangria201 = {
+  id: number;
+};
+
+export type ListaSangriasParams = {
+eventoId?: number;
+usuarioId?: number;
+barId?: number;
+status?: string;
+};
+
+export type ListaSangrias200Item = {
+  id: number;
+  barId: number;
+  barNome: string;
+  /** @nullable */
+  usuarioId?: number | null;
+  /** @nullable */
+  usuarioNome?: string | null;
+  responsavel: string;
+  dataHora: string;
+  status: string;
+  valorTotal: number;
+  /** @nullable */
+  eventoId?: number | null;
+};
+
+export type ListaSangria200ItensItem = {
+  id: number;
+  produtoId: number;
+  produtoNome: string;
+  produtoUnidadeMedida: string;
+  quantidade: number;
+};
+
+export type ListaSangria200 = {
+  id: number;
+  barId: number;
+  barNome: string;
+  /** @nullable */
+  usuarioId?: number | null;
+  /** @nullable */
+  usuarioNome?: string | null;
+  responsavel: string;
+  dataHora: string;
+  status: string;
+  valorTotal: number;
+  /** @nullable */
+  eventoId?: number | null;
+  itens: ListaSangria200ItensItem[];
+};
+
+export type RegistraContagemBodyItensItem = {
+  produtoId: number;
+  /**
+   * @minimum 0
+   * @maximum 9007199254740991
+   */
+  quantidade: number;
+};
+
+export type RegistraContagemBody = {
+  itens: RegistraContagemBodyItensItem[];
+};
+
+export type RegistraContagem200 = {
+  totalQuantidade: number;
+};
+

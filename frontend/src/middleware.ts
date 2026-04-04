@@ -43,8 +43,8 @@ export async function middleware(request: NextRequest) {
 
   try {
     const response = await fetch(
-      `http://localhost:3333/rotas-usuarios/${userId}`,
-      // `http://82.197.67.88:3333/rotas-usuarios/${userId}`,
+      // `http://localhost:3333/rotas-usuarios/${userId}`,
+      `http://82.197.67.88:3333/rotas-usuarios/${userId}`,
       {
         headers: {
           Authorization: `Bearer ${authToken}`,
@@ -57,7 +57,9 @@ export async function middleware(request: NextRequest) {
     }
 
     const rotas: { rota: string }[] = await response.json();
-    const hasAccess = rotas.some((r) => r.rota === pathname || pathname.startsWith(r.rota + '/'));
+    const hasAccess = rotas.some(
+      (r) => r.rota === pathname || pathname.startsWith(r.rota + "/")
+    );
 
     if (!hasAccess) {
       return NextResponse.redirect(new URL("/dashboard", request.url));

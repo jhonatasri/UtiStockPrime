@@ -7,6 +7,7 @@ import { produtosController } from "./controllers/produtosController";
 import { barController } from "./controllers/barController";
 import { entradaController } from "./controllers/entradaController";
 import { saidaController } from "./controllers/saidaController";
+import { sangriaController } from "./controllers/sangriaController";
 
 export async function routes(app: FastifyInstance) {
   app.addHook("onRequest", async (req, res) => {
@@ -24,4 +25,5 @@ export async function routes(app: FastifyInstance) {
   app.register(barController);
   app.register(entradaController);
   app.register(saidaController);
+  app.register(sangriaController);
 }

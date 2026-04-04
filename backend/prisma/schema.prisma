@@ -53,6 +53,7 @@ model Usuarios {
   rotasUsuarios   RotasUsuarios[]
   eventosUsuarios EventosUsuarios[]
   barUsuarios     BarUsuarios[]
+  sangrias        Sangrias[]
 
   @@map("usuarios")
 }
@@ -97,6 +98,7 @@ model Eventos {
   bares               Bares[]
   entradas            Entradas[]
   saidas              Saidas[]
+  sangrias            Sangrias[]
 
   @@map("eventos")
 }
@@ -123,6 +125,7 @@ model Produtos {
   barProdutos         BarProdutos[]
   entradaItens        EntradaItens[]
   saidaItens          SaidaItens[]
+  sangriaItens        SangriaItens[]
 
   @@map("produtos")
 }
@@ -142,8 +145,39 @@ model Bares {
   entradaItens EntradaItens[]
   saidaItens   SaidaItens[]
   barUsuarios  BarUsuarios[]
+  sangrias     Sangrias[]
 
   @@map("bares")
+}
+
+model Sangrias {
+  id          Int            @id @default(autoincrement())
+  barId       Int
+  usuarioId   Int?
+  responsavel String
+  dataHora    DateTime       @default(now())
+  status      String         @default("ABERTA")
+  valorTotal  Float          @default(0)
+  eventoId    Int?
+
+  bar     Bares          @relation(fields: [barId], references: [id])
+  usuario Usuarios?      @relation(fields: [usuarioId], references: [id])
+  evento  Eventos?       @relation(fields: [eventoId], references: [id], onDelete: SetNull)
+  itens   SangriaItens[]
+
+  @@map("sangrias")
+}
+
+model SangriaItens {
+  id         Int @id @default(autoincrement())
+  sangriaId  Int
+  produtoId  Int
+  quantidade Int
+
+  sangria Sangrias @relation(fields: [sangriaId], references: [id], onDelete: Cascade)
+  produto Produtos @relation(fields: [produtoId], references: [id])
+
+  @@map("sangriaItens")
 }
 
 model BarUsuarios {

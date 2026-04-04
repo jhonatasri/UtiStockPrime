@@ -22,6 +22,7 @@ import {
   Pencil,
   PowerOff,
   BarChart2,
+  Banknote,
 } from 'lucide-react'
 import { useListaBares, useAlteraAtivoBar } from '@/src/http/generated/bares/bares'
 import { ListaBares200Item } from '@/src/http/generated/api.schemas'
@@ -120,6 +121,10 @@ export default function BaresPage() {
                 <DropdownMenuItem onClick={() => router.push(`/dashboard/gestao/bares/${bar.id}/movimentacoes`)}>
                   <BarChart2 className="mr-2 h-4 w-4" />
                   Movimentações
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push(`/dashboard/gestao/bares/${bar.id}/sangrias`)}>
+                  <Banknote className="mr-2 h-4 w-4" />
+                  Sangrias
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setBarEditando(bar)}>
                   <Pencil className="mr-2 h-4 w-4" />
