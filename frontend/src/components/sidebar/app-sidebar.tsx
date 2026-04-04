@@ -41,6 +41,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     { query: { enabled: !!userId } },
   )
 
+  const selectedTeamId =
+    typeof window !== 'undefined'
+      ? localStorage.getItem('selected-team-id')
+      : null
+  const hasEvento = !!selectedTeamId && selectedTeamId !== 'undefined'
+
   const teams = React.useMemo(() => {
     const eventTeams = (eventos ?? [])
       .filter((e) => e.ativo)
@@ -92,7 +98,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
 
       <SidebarContent className="bg-[#0f1e2e] text-white font-semibold">
-        <NavMain items={navMain} />
+        <NavMain items={navMain} hasEvento={hasEvento} />
       </SidebarContent>
 
       <SidebarFooter className="bg-[#0f1e2e] text-white">
