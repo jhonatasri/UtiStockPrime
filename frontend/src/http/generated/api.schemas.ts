@@ -26,7 +26,7 @@ export type ListaUsuarios200Item = {
   ativo: boolean;
   telefone: string;
   funcao: unknown;
-  descricao?: string |  | null;
+  descricao?: string | null;
 };
 
 export type CriaUsuarioBodyFuncao = typeof CriaUsuarioBodyFuncao[keyof typeof CriaUsuarioBodyFuncao];
@@ -80,16 +80,16 @@ export type ListaUsuario200 = {
   ativo: boolean;
   telefone: string;
   funcao: unknown;
-  descricao?: string |  | null;
+  descricao?: string | null;
 };
 
 export type ListaRotas200Item = {
   id: number;
   rota: string;
   titulo: string;
-  descricao?: string |  | null;
+  descricao?: string | null;
   logo: string;
-  modulo?: string |  | null;
+  modulo?: string | null;
 };
 
 export type CadastrarRotaUsuarioBody = {
@@ -109,9 +109,9 @@ export type ListaRotasPorUsuario200Item = {
   id: number;
   rota: string;
   titulo: string;
-  descricao?: string |  | null;
+  descricao?: string | null;
   logo: string;
-  modulo?: string |  | null;
+  modulo?: string | null;
 };
 
 export type ListaEventosParams = {
@@ -121,14 +121,14 @@ usuarioId?: number;
 export type ListaEventos200Item = {
   id: number;
   nome: string;
-  descricao?: string |  | null;
-  data?: string |  | null;
-  local?: string |  | null;
+  descricao?: string | null;
+  data?: string | null;
+  local?: string | null;
   ativo: boolean;
   categoria: string;
-  responsavelNome?: string |  | null;
-  responsavelTelefone?: string |  | null;
-  responsavelEmail?: string |  | null;
+  responsavelNome?: string | null;
+  responsavelTelefone?: string | null;
+  responsavelEmail?: string | null;
 };
 
 export type CriaEventoBodyCategoria = typeof CriaEventoBodyCategoria[keyof typeof CriaEventoBodyCategoria];
@@ -188,14 +188,14 @@ export type AlteraEvento200 = { [key: string]: unknown };
 export type ListaEvento200 = {
   id: number;
   nome: string;
-  descricao?: string |  | null;
-  data?: string |  | null;
-  local?: string |  | null;
+  descricao?: string | null;
+  data?: string | null;
+  local?: string | null;
   ativo: boolean;
   categoria: string;
-  responsavelNome?: string |  | null;
-  responsavelTelefone?: string |  | null;
-  responsavelEmail?: string |  | null;
+  responsavelNome?: string | null;
+  responsavelTelefone?: string | null;
+  responsavelEmail?: string | null;
   usuariosIds: number[];
 };
 
@@ -237,18 +237,18 @@ export type ListaProdutos200Item = {
   nome: string;
   categoria: string;
   marca: string;
-  modelo?: string |  | null;
-  descricao?: string |  | null;
+  modelo?: string | null;
+  descricao?: string | null;
   unidadeMedida: string;
   quantidadeMinima: number;
   ativo: boolean;
   tipoArmazenamento: ListaProdutos200ItemTipoArmazenamento;
   tipoConsumo: ListaProdutos200ItemTipoConsumo;
   tipoConsumoDetalhe: ListaProdutos200ItemTipoConsumoDetalhe;
-  volumePorUnidade?: number |  | null;
-  mlPorDose?: number |  | null;
-  dosesPorUnidade?: number |  | null;
-  eventoId?: number |  | null;
+  volumePorUnidade?: number | null;
+  mlPorDose?: number | null;
+  dosesPorUnidade?: number | null;
+  eventoId?: number | null;
 };
 
 export type CriaProdutoBodyTipoArmazenamento = typeof CriaProdutoBodyTipoArmazenamento[keyof typeof CriaProdutoBodyTipoArmazenamento];
@@ -340,18 +340,18 @@ export type ListaProduto200 = {
   nome: string;
   categoria: string;
   marca: string;
-  modelo?: string |  | null;
-  descricao?: string |  | null;
+  modelo?: string | null;
+  descricao?: string | null;
   unidadeMedida: string;
   quantidadeMinima: number;
   ativo: boolean;
   tipoArmazenamento: ListaProduto200TipoArmazenamento;
   tipoConsumo: ListaProduto200TipoConsumo;
   tipoConsumoDetalhe: ListaProduto200TipoConsumoDetalhe;
-  volumePorUnidade?: number |  | null;
-  mlPorDose?: number |  | null;
-  dosesPorUnidade?: number |  | null;
-  eventoId?: number |  | null;
+  volumePorUnidade?: number | null;
+  mlPorDose?: number | null;
+  dosesPorUnidade?: number | null;
+  eventoId?: number | null;
 };
 
 export type AlteraProdutoBodyTipoArmazenamento = typeof AlteraProdutoBodyTipoArmazenamento[keyof typeof AlteraProdutoBodyTipoArmazenamento];
@@ -423,13 +423,13 @@ usuarioId?: number;
 export type ListaBares200Item = {
   id: number;
   nome: string;
-  liderNome?: string |  | null;
-  area?: string |  | null;
-  setor?: string |  | null;
-  descricao?: string |  | null;
+  liderNome?: string | null;
+  area?: string | null;
+  setor?: string | null;
+  descricao?: string | null;
   status: string;
   ativo: boolean;
-  eventoId?: number |  | null;
+  eventoId?: number | null;
   qtdProdutos: number;
 };
 
@@ -466,13 +466,13 @@ export type ListaBar200UsuariosItem = {
 export type ListaBar200 = {
   id: number;
   nome: string;
-  liderNome?: string |  | null;
-  area?: string |  | null;
-  setor?: string |  | null;
-  descricao?: string |  | null;
+  liderNome?: string | null;
+  area?: string | null;
+  setor?: string | null;
+  descricao?: string | null;
   status: string;
   ativo: boolean;
-  eventoId?: number |  | null;
+  eventoId?: number | null;
   qtdProdutos: number;
   produtos: ListaBar200ProdutosItem[];
   usuarios: ListaBar200UsuariosItem[];
@@ -549,10 +549,10 @@ export type ListaEntradas200Item = {
   id: number;
   dataHora: string;
   tipoEntrada: string;
-  numeroDocumento?: string |  | null;
-  fornecedor?: string |  | null;
-  observacoes?: string |  | null;
-  eventoId?: number |  | null;
+  numeroDocumento?: string | null;
+  fornecedor?: string | null;
+  observacoes?: string | null;
+  eventoId?: number | null;
   totalItens: number;
   totalQuantidade: number;
   valorTotal: number;
@@ -567,21 +567,21 @@ export type ListaEntrada200ItensItem = {
   produtoUnidadeMedida: string;
   barId: number;
   barNome: string;
-  loteSerie?: string |  | null;
-  validade?: string |  | null;
+  loteSerie?: string | null;
+  validade?: string | null;
   quantidade: number;
   precoVenda: number;
-  localizacao?: string |  | null;
+  localizacao?: string | null;
 };
 
 export type ListaEntrada200 = {
   id: number;
   dataHora: string;
   tipoEntrada: string;
-  numeroDocumento?: string |  | null;
-  fornecedor?: string |  | null;
-  observacoes?: string |  | null;
-  eventoId?: number |  | null;
+  numeroDocumento?: string | null;
+  fornecedor?: string | null;
+  observacoes?: string | null;
+  eventoId?: number | null;
   totalItens: number;
   totalQuantidade: number;
   valorTotal: number;
@@ -622,9 +622,9 @@ export type ListaSaidas200Item = {
   id: number;
   dataHora: string;
   tipoSaida: string;
-  numeroDocumento?: string |  | null;
-  observacoes?: string |  | null;
-  eventoId?: number |  | null;
+  numeroDocumento?: string | null;
+  observacoes?: string | null;
+  eventoId?: number | null;
   totalItens: number;
   totalQuantidade: number;
 };
@@ -639,17 +639,17 @@ export type ListaSaida200ItensItem = {
   barId: number;
   barNome: string;
   quantidade: number;
-  motivo?: string |  | null;
-  localizacao?: string |  | null;
+  motivo?: string | null;
+  localizacao?: string | null;
 };
 
 export type ListaSaida200 = {
   id: number;
   dataHora: string;
   tipoSaida: string;
-  numeroDocumento?: string |  | null;
-  observacoes?: string |  | null;
-  eventoId?: number |  | null;
+  numeroDocumento?: string | null;
+  observacoes?: string | null;
+  eventoId?: number | null;
   totalItens: number;
   totalQuantidade: number;
   itens: ListaSaida200ItensItem[];
@@ -683,13 +683,13 @@ export type ListaSangrias200Item = {
   id: number;
   barId: number;
   barNome: string;
-  usuarioId?: number |  | null;
-  usuarioNome?: string |  | null;
+  usuarioId?: number | null;
+  usuarioNome?: string | null;
   responsavel: string;
   dataHora: string;
   status: string;
   valorTotal: number;
-  eventoId?: number |  | null;
+  eventoId?: number | null;
 };
 
 export type ListaSangria200ItensItem = {
@@ -704,13 +704,13 @@ export type ListaSangria200 = {
   id: number;
   barId: number;
   barNome: string;
-  usuarioId?: number |  | null;
-  usuarioNome?: string |  | null;
+  usuarioId?: number | null;
+  usuarioNome?: string | null;
   responsavel: string;
   dataHora: string;
   status: string;
   valorTotal: number;
-  eventoId?: number |  | null;
+  eventoId?: number | null;
   itens: ListaSangria200ItensItem[];
 };
 
@@ -764,13 +764,13 @@ export type ListaDevoluCoes200Item = {
   id: number;
   barId: number;
   barNome: string;
-  usuarioId?: number |  | null;
-  usuarioNome?: string |  | null;
+  usuarioId?: number | null;
+  usuarioNome?: string | null;
   responsavel: string;
   dataHora: string;
-  observacoes?: string |  | null;
+  observacoes?: string | null;
   totalItens: number;
-  eventoId?: number |  | null;
+  eventoId?: number | null;
 };
 
 export type ListaDevolucao200ItensItem = {
@@ -785,13 +785,13 @@ export type ListaDevolucao200 = {
   id: number;
   barId: number;
   barNome: string;
-  usuarioId?: number |  | null;
-  usuarioNome?: string |  | null;
+  usuarioId?: number | null;
+  usuarioNome?: string | null;
   responsavel: string;
   dataHora: string;
-  observacoes?: string |  | null;
+  observacoes?: string | null;
   totalItens: number;
-  eventoId?: number |  | null;
+  eventoId?: number | null;
   itens: ListaDevolucao200ItensItem[];
 };
 
