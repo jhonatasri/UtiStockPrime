@@ -496,6 +496,7 @@ export type AlteraBar200 = { [key: string]: unknown };
 export type ListaMovimentacoesBar200Item = {
   id: number;
   tipo: string;
+  tipoMovimentacao: string;
   produtoId: number;
   produtoNome: string;
   produtoCodigo: string;
