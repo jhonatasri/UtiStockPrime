@@ -53,8 +53,17 @@ export default function MovimentacoesBarPage({ params }: { params: Promise<{ id:
     },
     {
       id: 'tipo',
-      header: 'Tipo de Movimentação',
+      header: 'Tipo',
       cell: ({ row }) => <BadgeTipo tipo={row.original.tipo} />,
+    },
+    {
+      id: 'tipoMovimentacao',
+      header: 'Referência',
+      cell: ({ row }) => (
+        <span className="text-sm text-[#374151]">
+          {row.original.tipoMovimentacao ?? '—'}
+        </span>
+      ),
     },
     {
       id: 'quantidade',

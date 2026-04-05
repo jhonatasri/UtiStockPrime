@@ -36,6 +36,7 @@ const barBody = z.object({
 const movimentacaoResponse = z.object({
   id: z.number(),
   tipo: z.string(), // ENTRADA | SAIDA
+  tipoMovimentacao: z.string(), // tipoEntrada ou tipoSaida
   produtoId: z.number(),
   produtoNome: z.string(),
   produtoCodigo: z.string(),
@@ -214,6 +215,7 @@ export const barController: FastifyPluginAsyncZod = async (app) => {
         ...entradaItens.map((item) => ({
           id: item.id,
           tipo: "ENTRADA",
+          tipoMovimentacao: item.entrada.tipoEntrada,
           produtoId: item.produtoId,
           produtoNome: item.produto.nome,
           produtoCodigo: item.produto.codigo,
@@ -225,6 +227,7 @@ export const barController: FastifyPluginAsyncZod = async (app) => {
         ...saidaItens.map((item) => ({
           id: item.id,
           tipo: "SAIDA",
+          tipoMovimentacao: item.saida.tipoSaida,
           produtoId: item.produtoId,
           produtoNome: item.produto.nome,
           produtoCodigo: item.produto.codigo,
