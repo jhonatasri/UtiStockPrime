@@ -11,6 +11,7 @@ import {
   Undo2,
   TrendingUp,
   TrendingDown,
+  CalendarCheck,
 } from 'lucide-react'
 import { AuthContext } from '@/src/providers/AuthContext'
 import { apiMutator } from '@/src/lib/api'
@@ -42,11 +43,12 @@ type DashboardData = {
 function useDashboard(eventoId: number | undefined) {
   return useQuery({
     queryKey: ['dashboard', eventoId],
+    enabled: !!eventoId,
     queryFn: () =>
       apiMutator<DashboardData>({
         url: '/dashboard',
         method: 'GET',
-        params: eventoId ? { eventoId } : {},
+        params: { eventoId },
       }),
   })
 }
@@ -151,6 +153,16 @@ export default function DashboardPage() {
     typeof window !== 'undefined'
       ? localStorage.getItem('selected-team-name') ?? 'Evento'
       : 'Evento'
+
+  if (!eventoId) {
+    return (
+      <div className="flex flex-col h-64 items-center justify-center gap-3 text-[#9CA3AF]">
+        <CalendarCheck className="h-10 w-10 opacity-40" />
+        <p className="text-sm font-medium">Nenhum evento selecionado</p>
+        <p className="text-xs">Selecione um evento no menu lateral para visualizar os dados.</p>
+      </div>
+    )
+  }
 
   if (isLoading || !data) {
     return (
