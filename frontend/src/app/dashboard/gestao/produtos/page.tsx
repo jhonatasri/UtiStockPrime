@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { CardsComponents } from '@/src/components/cards'
 import { DataTable } from '@/src/components/dataTable'
 import { Button } from '@/src/components/ui/button'
@@ -66,9 +66,10 @@ export default function ProdutosPage() {
   const [produtoEditando, setProdutoEditando] = useState<ListaProdutos200Item | null>(null)
   const [produtoVisualizando, setProdutoVisualizando] = useState<ListaProdutos200Item | null>(null)
 
-  const eventoId = typeof window !== 'undefined'
-    ? Number(localStorage.getItem('selected-team-id')) || undefined
-    : undefined
+  const [eventoId, setEventoId] = useState<number | undefined>(undefined)
+  useEffect(() => {
+    setEventoId(Number(localStorage.getItem('selected-team-id')) || undefined)
+  }, [])
 
   const { data: produtos = [], refetch } = useListaProdutos({ eventoId })
   const { mutate: alteraStatus } = useAlteraStatusProduto()
@@ -184,7 +185,16 @@ export default function ProdutosPage() {
         </h1>
 
         <div className="flex items-center gap-2.5">
-          <Button variant="default" onClick={() => setModalAberto(true)}>
+          {!eventoId && (
+            <span className="text-sm text-amber-600 font-medium">
+              Selecione um evento para cadastrar produtos
+            </span>
+          )}
+          <Button
+            variant="default"
+            onClick={() => setModalAberto(true)}
+            disabled={!eventoId}
+          >
             <Plus />
             Novo Produto
           </Button>
