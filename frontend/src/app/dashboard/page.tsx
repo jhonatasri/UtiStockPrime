@@ -1,6 +1,5 @@
 'use client'
 
-import { useContext } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import {
   Store,
@@ -13,8 +12,8 @@ import {
   TrendingDown,
   CalendarCheck,
 } from 'lucide-react'
-import { AuthContext } from '@/src/providers/AuthContext'
 import { apiMutator } from '@/src/lib/api'
+import { useEventoSelecionado } from '@/src/hooks/useEventoSelecionado'
 
 // ─── Tipo do resumo ───────────────────────────────────────────────────────────
 
@@ -140,19 +139,8 @@ function MovimentacaoRow({
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function DashboardPage() {
-  const { user } = useContext(AuthContext)
-
-  const eventoId =
-    typeof window !== 'undefined'
-      ? Number(localStorage.getItem('selected-team-id')) || undefined
-      : undefined
-
+  const { eventoId, nomeEvento } = useEventoSelecionado()
   const { data, isLoading } = useDashboard(eventoId)
-
-  const nomeEvento =
-    typeof window !== 'undefined'
-      ? localStorage.getItem('selected-team-name') ?? 'Evento'
-      : 'Evento'
 
   if (!eventoId) {
     return (

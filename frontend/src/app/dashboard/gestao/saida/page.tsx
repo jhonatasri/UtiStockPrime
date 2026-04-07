@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useMemo, useState, useEffect } from 'react'
 import { Plus, Trash2, Check, PackageOpen } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
@@ -20,10 +20,10 @@ const TIPOS_SAIDA = [
 export default function SaidaPage() {
   const { user } = useContext(AuthContext)
 
-  const eventoId =
-    typeof window !== 'undefined'
-      ? Number(localStorage.getItem('selected-team-id')) || undefined
-      : undefined
+  const [eventoId, setEventoId] = useState<number | undefined>(undefined)
+  useEffect(() => {
+    setEventoId(Number(localStorage.getItem('selected-team-id')) || undefined)
+  }, [])
 
   const usuarioId = user ? Number(user.usuario.id) : undefined
 

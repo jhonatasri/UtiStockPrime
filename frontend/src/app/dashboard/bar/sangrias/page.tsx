@@ -51,10 +51,10 @@ export default function SangriasPage() {
   const router = useRouter()
   const { user } = useContext(AuthContext)
 
-  const eventoId =
-    typeof window !== 'undefined'
-      ? Number(localStorage.getItem('selected-team-id')) || undefined
-      : undefined
+  const [eventoId, setEventoId] = useState<number | undefined>(undefined)
+  useEffect(() => {
+    setEventoId(Number(localStorage.getItem('selected-team-id')) || undefined)
+  }, [])
 
   const usuarioId = user ? Number(user.usuario.id) : undefined
 
@@ -79,7 +79,7 @@ export default function SangriasPage() {
   const [responsavel, setResponsavel] = useState('')
 
   const { data: bares = [] } = useListaBares({ eventoId, usuarioId })
-  const baresAtivos = bares.filter((b) => b.ativo)
+  const baresAtivos = bares.filter((b) => b.ativo && b.status === 'ABERTO')
   const barSelecionado = baresAtivos.find((b) => b.id === barId)
 
   const { mutate: criaSangria, isPending } = useCriaSangria()

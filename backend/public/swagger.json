@@ -1995,6 +1995,9 @@
                       "tipo": {
                         "type": "string"
                       },
+                      "tipoMovimentacao": {
+                        "type": "string"
+                      },
                       "produtoId": {
                         "type": "number"
                       },
@@ -2020,6 +2023,7 @@
                     "required": [
                       "id",
                       "tipo",
+                      "tipoMovimentacao",
                       "produtoId",
                       "produtoNome",
                       "produtoCodigo",
@@ -2056,6 +2060,66 @@
                 },
                 "required": [
                   "ativo"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bar/{id}/status": {
+      "patch": {
+        "operationId": "alteraStatusBar",
+        "tags": [
+          "Bares"
+        ],
+        "description": "Altera o status de abertura de um bar (ABERTO/FECHADO)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "ABERTO",
+                      "FECHADO"
+                    ]
+                  }
+                },
+                "required": [
+                  "status"
                 ]
               }
             }
@@ -3418,6 +3482,94 @@
         }
       }
     },
+    "/relatorios/estoque": {
+      "get": {
+        "operationId": "relatorioEstoque",
+        "tags": [
+          "Relatórios"
+        ],
+        "description": "Relatório de estoque geral por evento: entradas, saídas, sangrias, devoluções e saldo por produto",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "eventoId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "produtoId": {
+                        "type": "number"
+                      },
+                      "produtoNome": {
+                        "type": "string"
+                      },
+                      "produtoCodigo": {
+                        "type": "string"
+                      },
+                      "produtoUnidadeMedida": {
+                        "type": "string"
+                      },
+                      "produtoQuantidadeMinima": {
+                        "type": "number"
+                      },
+                      "totalEntrada": {
+                        "type": "number"
+                      },
+                      "totalSaida": {
+                        "type": "number"
+                      },
+                      "totalSangria": {
+                        "type": "number"
+                      },
+                      "totalDevolucao": {
+                        "type": "number"
+                      },
+                      "estoqueTotal": {
+                        "type": "number"
+                      },
+                      "alerta": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "produtoId",
+                      "produtoNome",
+                      "produtoCodigo",
+                      "produtoUnidadeMedida",
+                      "produtoQuantidadeMinima",
+                      "totalEntrada",
+                      "totalSaida",
+                      "totalSangria",
+                      "totalDevolucao",
+                      "estoqueTotal",
+                      "alerta"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/relatorios/bar": {
       "get": {
         "operationId": "relatorioBar",
@@ -3491,6 +3643,132 @@
                     ],
                     "additionalProperties": false
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "operationId": "dashboard",
+        "tags": [
+          "Dashboard"
+        ],
+        "description": "Resumo geral do evento para o dashboard",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "eventoId",
+            "required": false
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalBares": {
+                      "type": "number"
+                    },
+                    "baresAbertos": {
+                      "type": "number"
+                    },
+                    "baresFechados": {
+                      "type": "number"
+                    },
+                    "baresInativos": {
+                      "type": "number"
+                    },
+                    "totalProdutos": {
+                      "type": "number"
+                    },
+                    "totalEntradas": {
+                      "type": "number"
+                    },
+                    "totalQuantidadeEntradas": {
+                      "type": "number"
+                    },
+                    "totalSaidas": {
+                      "type": "number"
+                    },
+                    "totalQuantidadeSaidas": {
+                      "type": "number"
+                    },
+                    "totalSangrias": {
+                      "type": "number"
+                    },
+                    "totalDevolucoes": {
+                      "type": "number"
+                    },
+                    "ultimasMovimentacoes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "tipo": {
+                            "type": "string",
+                            "enum": [
+                              "ENTRADA",
+                              "SAIDA"
+                            ]
+                          },
+                          "dataHora": {
+                            "type": "string"
+                          },
+                          "totalItens": {
+                            "type": "number"
+                          },
+                          "totalQuantidade": {
+                            "type": "number"
+                          },
+                          "descricao": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "tipo",
+                          "dataHora",
+                          "totalItens",
+                          "totalQuantidade",
+                          "descricao"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "totalBares",
+                    "baresAbertos",
+                    "baresFechados",
+                    "baresInativos",
+                    "totalProdutos",
+                    "totalEntradas",
+                    "totalQuantidadeEntradas",
+                    "totalSaidas",
+                    "totalQuantidadeSaidas",
+                    "totalSangrias",
+                    "totalDevolucoes",
+                    "ultimasMovimentacoes"
+                  ],
+                  "additionalProperties": false
                 }
               }
             }

@@ -39,7 +39,7 @@ export function ModalAdicionarProdutoSaida({ eventoId, usuarioId, onAdicionar, o
   const { data: bares = [] } = useListaBares({ eventoId, usuarioId })
 
   const produtosAtivos = produtos.filter((p) => p.ativo)
-  const baresAtivos = bares.filter((b) => b.ativo)
+  const baresAtivos = bares.filter((b) => b.ativo && b.status === 'ABERTO')
 
   const filtrados = useMemo(
     () =>

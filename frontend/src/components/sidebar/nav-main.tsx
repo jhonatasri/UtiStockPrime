@@ -122,7 +122,7 @@ export function NavMain({ items, hasEvento }: { items: NavItem[]; hasEvento: boo
               className="group/collapsible"
             >
               <SidebarMenuItem>
-                <CollapsibleTrigger asChild={!todosBloqueados} disabled={todosBloqueados}>
+                <CollapsibleTrigger asChild>
                   <SidebarMenuButton
                     tooltip={todosBloqueados ? 'Selecione um evento primeiro' : item.title}
                     disabled={todosBloqueados}

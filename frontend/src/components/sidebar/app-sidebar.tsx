@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useEventoSelecionado } from "@/src/hooks/useEventoSelecionado"
 import { GalleryVerticalEnd, LayoutDashboard, CalendarCheck, type LucideIcon } from "lucide-react"
 import * as LucideIcons from "lucide-react"
 
@@ -41,11 +42,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     { query: { enabled: !!userId } },
   )
 
-  const selectedTeamId =
-    typeof window !== 'undefined'
-      ? localStorage.getItem('selected-team-id')
-      : null
-  const hasEvento = !!selectedTeamId && selectedTeamId !== 'undefined'
+  const { eventoId: selectedEventoId } = useEventoSelecionado()
+  const hasEvento = !!selectedEventoId
 
   const teams = React.useMemo(() => {
     const eventTeams = (eventos ?? [])

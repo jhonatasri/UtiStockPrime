@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { User, Shield, FileText, CheckCircle2 } from 'lucide-react'
-import { FiEdit, FiAlertCircle } from 'react-icons/fi'
+import { FiEdit } from 'react-icons/fi'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/src/components/ui/dialog'
 import { Button } from '@/src/components/ui/button'
 import { Separator } from '@/src/components/ui/separator'
@@ -101,14 +101,6 @@ export function DetalheUsuarioModal({ id, open, onClose }: Props) {
               </div>
 
               <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-red-500 border-red-200 hover:bg-red-50 hover:text-red-600 flex gap-1.5 items-center"
-                >
-                  <FiAlertCircle size={15} />
-                  Inativar
-                </Button>
                 <Button
                   size="sm"
                   className="bg-[#253158] text-white hover:bg-[#1a2342] flex gap-1.5 items-center"

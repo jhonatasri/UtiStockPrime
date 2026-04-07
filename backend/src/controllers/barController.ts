@@ -262,4 +262,25 @@ export const barController: FastifyPluginAsyncZod = async (app) => {
       return res.status(200).send({});
     }
   );
+
+  app.patch(
+    "/bar/:id/status",
+    {
+      schema: {
+        description: "Altera o status de abertura de um bar (ABERTO/FECHADO)",
+        tags: ["Bares"],
+        operationId: "alteraStatusBar",
+        security: [{ BearerAuth: [] }],
+        params: z.object({ id: z.coerce.number() }),
+        body: z.object({ status: z.enum(["ABERTO", "FECHADO"]) }),
+        response: { 200: z.object({}) },
+      },
+    },
+    async (req, res) => {
+      const { id } = req.params;
+      const { status } = req.body;
+      await prisma.bares.update({ where: { id }, data: { status } });
+      return res.status(200).send({});
+    }
+  );
 };

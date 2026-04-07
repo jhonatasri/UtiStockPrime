@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { DataTable } from '@/src/components/dataTable'
 import { Button } from '@/src/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
@@ -24,8 +24,10 @@ import {
   BarChart2,
   Banknote,
   Undo2,
+  DoorOpen,
+  DoorClosed,
 } from 'lucide-react'
-import { useListaBares, useAlteraAtivoBar } from '@/src/http/generated/bares/bares'
+import { useListaBares, useAlteraAtivoBar, useAlteraStatusBar } from '@/src/http/generated/bares/bares'
 import { ListaBares200Item } from '@/src/http/generated/api.schemas'
 
 function BadgeStatus({ status, ativo }: { status: string; ativo: boolean }) {
@@ -58,12 +60,14 @@ export default function BaresPage() {
 
   const router = useRouter()
 
-  const eventoId = typeof window !== 'undefined'
-    ? Number(localStorage.getItem('selected-team-id')) || undefined
-    : undefined
+  const [eventoId, setEventoId] = useState<number | undefined>(undefined)
+  useEffect(() => {
+    setEventoId(Number(localStorage.getItem('selected-team-id')) || undefined)
+  }, [])
 
   const { data: bares = [], refetch } = useListaBares({ eventoId })
   const { mutate: alteraAtivo } = useAlteraAtivoBar()
+  const { mutate: alteraStatus } = useAlteraStatusBar()
 
   const totalBares = bares.length
   const baresAtivos = bares.filter(b => b.ativo && b.status === 'ABERTO').length
@@ -135,6 +139,28 @@ export default function BaresPage() {
                   <Pencil className="mr-2 h-4 w-4" />
                   Editar
                 </DropdownMenuItem>
+                {bar.ativo && (
+                  <DropdownMenuItem
+                    onClick={() =>
+                      alteraStatus(
+                        { id: bar.id, data: { status: bar.status === 'ABERTO' ? 'FECHADO' : 'ABERTO' } },
+                        { onSuccess: () => refetch() }
+                      )
+                    }
+                  >
+                    {bar.status === 'ABERTO' ? (
+                      <>
+                        <DoorClosed className="mr-2 h-4 w-4" />
+                        Fechar Bar
+                      </>
+                    ) : (
+                      <>
+                        <DoorOpen className="mr-2 h-4 w-4" />
+                        Abrir Bar
+                      </>
+                    )}
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem
                   onClick={() =>
                     alteraAtivo(

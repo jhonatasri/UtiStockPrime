@@ -6,7 +6,6 @@ import { NovoUsuarioModal } from "@/src/components/usuarios/novo-usuario-modal";
 import { DetalheUsuarioModal } from "@/src/components/usuarios/detalhe-usuario-modal";
 import { EditaUsuarioModal } from "@/src/components/usuarios/edita-usuario-modal";
 import {
-  FiAlertCircle,
   FiChevronDown,
   FiEdit,
   FiEye,
@@ -98,10 +97,6 @@ export default function Usuarios() {
                 onClick={() => setEditId(row.original.id)}
               >
                 <FiEdit /> Editar
-              </DropdownMenuItem>
-
-              <DropdownMenuItem className="flex items-center gap-2 text-red-500">
-                <FiAlertCircle /> Inativar
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

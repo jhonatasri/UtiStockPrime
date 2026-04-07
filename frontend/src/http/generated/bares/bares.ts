@@ -486,4 +486,29 @@ const {mutation: mutationOptions} = options ?
       > => {
       return useMutation(getAlteraAtivoBarMutationOptions(options), queryClient);
     }
-    
+
+/**
+ * Altera o status de abertura de um bar (ABERTO/FECHADO)
+ */
+export const alteraStatusBar = (
+    id: number,
+    data: { status: 'ABERTO' | 'FECHADO' },
+) => {
+      return apiMutator<Record<string, never>>(
+      {url: `/bar/${id}/status`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data,
+    },
+      );
+    }
+
+export const useAlteraStatusBar = <TError = unknown, TContext = unknown>(
+  options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof alteraStatusBar>>, TError, {id: number; data: { status: 'ABERTO' | 'FECHADO' }}, TContext> },
+  queryClient?: QueryClient,
+): UseMutationResult<Awaited<ReturnType<typeof alteraStatusBar>>, TError, {id: number; data: { status: 'ABERTO' | 'FECHADO' }}, TContext> => {
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof alteraStatusBar>>, {id: number; data: { status: 'ABERTO' | 'FECHADO' }}> = (props) => {
+    const {id, data} = props ?? {};
+    return alteraStatusBar(id, data);
+  };
+  return useMutation({ mutationFn, ...options?.mutation }, queryClient);
+}

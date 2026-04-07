@@ -14,7 +14,119 @@ const relatorioBarItemSchema = z.object({
   saldo: z.number(),
 });
 
+const relatorioEstoqueItemSchema = z.object({
+  produtoId: z.number(),
+  produtoNome: z.string(),
+  produtoCodigo: z.string(),
+  produtoUnidadeMedida: z.string(),
+  produtoQuantidadeMinima: z.number(),
+  totalEntrada: z.number(),
+  totalSaida: z.number(),
+  totalSangria: z.number(),
+  totalDevolucao: z.number(),
+  estoqueTotal: z.number(),
+  alerta: z.string(),
+});
+
 export const relatorioController: FastifyPluginAsyncZod = async (app) => {
+  // ── Relatório de estoque geral por evento ─────────────────────────────────
+  app.get(
+    "/relatorios/estoque",
+    {
+      schema: {
+        description:
+          "Relatório de estoque geral por evento: entradas, saídas, sangrias, devoluções e saldo por produto",
+        tags: ["Relatórios"],
+        operationId: "relatorioEstoque",
+        security: [{ BearerAuth: [] }],
+        querystring: z.object({
+          eventoId: z.coerce.number(),
+        }),
+        response: {
+          200: z.array(relatorioEstoqueItemSchema),
+        },
+      },
+    },
+    async (req, res) => {
+      const { eventoId } = req.query;
+
+      const [entradaItens, saidaItens, devolucaoItens, sangriaItens, produtos] =
+        await Promise.all([
+          prisma.entradaItens.findMany({
+            where: { entrada: { eventoId } },
+            select: { produtoId: true, quantidade: true },
+          }),
+          prisma.saidaItens.findMany({
+            where: { saida: { eventoId } },
+            select: { produtoId: true, quantidade: true },
+          }),
+          prisma.devolucaoItens.findMany({
+            where: { devolucao: { eventoId } },
+            select: { produtoId: true, quantidade: true },
+          }),
+          prisma.sangriaItens.findMany({
+            where: { sangria: { eventoId } },
+            select: { produtoId: true, quantidade: true },
+          }),
+          prisma.produtos.findMany({
+            where: { eventoId },
+            select: {
+              id: true,
+              nome: true,
+              codigo: true,
+              unidadeMedida: true,
+              quantidadeMinima: true,
+            },
+          }),
+        ]);
+
+      const toMap = (itens: { produtoId: number; quantidade: number }[]) =>
+        itens.reduce((acc, i) => {
+          acc.set(i.produtoId, (acc.get(i.produtoId) ?? 0) + i.quantidade);
+          return acc;
+        }, new Map<number, number>());
+
+      const entradaMap = toMap(entradaItens);
+      const saidaMap = toMap(saidaItens);
+      const devolucaoMap = toMap(devolucaoItens);
+      const sangriaMap = toMap(sangriaItens);
+
+      const result = produtos
+        .sort((a, b) => a.nome.localeCompare(b.nome))
+        .map((produto) => {
+          const totalEntrada = entradaMap.get(produto.id) ?? 0;
+          const totalSaida = saidaMap.get(produto.id) ?? 0;
+          const totalDevolucao = devolucaoMap.get(produto.id) ?? 0;
+          const totalSangria = sangriaMap.get(produto.id) ?? 0;
+          const estoqueTotal =
+            totalEntrada - totalSaida - totalSangria + totalDevolucao;
+
+          const alerta =
+            estoqueTotal <= 0
+              ? "CRITICO"
+              : estoqueTotal <= produto.quantidadeMinima
+              ? "BAIXO"
+              : "BOM";
+
+          return {
+            produtoId: produto.id,
+            produtoNome: produto.nome,
+            produtoCodigo: produto.codigo,
+            produtoUnidadeMedida: produto.unidadeMedida,
+            produtoQuantidadeMinima: produto.quantidadeMinima,
+            totalEntrada,
+            totalSaida,
+            totalSangria,
+            totalDevolucao,
+            estoqueTotal,
+            alerta,
+          };
+        });
+
+      return res.send(result);
+    }
+  );
+
   // ── Relatório por bar ─────────────────────────────────────────────────────
   app.get(
     "/relatorios/bar",
@@ -86,7 +198,8 @@ export const relatorioController: FastifyPluginAsyncZod = async (app) => {
           const totalSaida = saidaMap.get(produto.id) ?? 0;
           const totalDevolucao = devolucaoMap.get(produto.id) ?? 0;
           const totalSangria = sangriaMap.get(produto.id) ?? 0;
-          const saldo = totalEntrada - totalSaida - totalDevolucao - totalSangria;
+          const saldo =
+            totalEntrada - totalSaida - totalDevolucao - totalSangria;
 
           return {
             produtoId: produto.id,
