@@ -2,6 +2,7 @@
 
 import { use, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useQueryClient } from '@tanstack/react-query'
 import { Link2, ArrowRight, Check, RotateCcw, ClipboardList, Package } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { useListaSangria, useRegistraContagem } from '@/src/http/generated/sangrias/sangrias'
@@ -114,6 +115,7 @@ export default function ContagemPage({ params }: { params: Promise<{ id: string 
   const { id } = use(params)
   const sangriaId = Number(id)
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   const { data: sangria, isLoading: loadingSangria } = useListaSangria(sangriaId)
   const { data: bar, isLoading: loadingBar } = useListaBar(
@@ -152,7 +154,8 @@ export default function ContagemPage({ params }: { params: Promise<{ id: string 
       },
       {
         onSuccess: () => {
-          router.push('/dashboard/bar/sangrias')
+          queryClient.removeQueries({ queryKey: ['/sangrias'] })
+          router.replace('/dashboard/bar/sangrias')
         },
       }
     )

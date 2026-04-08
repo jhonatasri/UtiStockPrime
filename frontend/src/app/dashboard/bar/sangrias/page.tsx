@@ -61,7 +61,7 @@ export default function SangriasPage() {
   // Checa se há sangria aberta para este evento + usuário — redireciona automaticamente
   const { data: sangriasAbertas = [], isLoading: verificando } = useListaSangrias(
     { eventoId, usuarioId, status: 'ABERTA' },
-    { query: { enabled: !!usuarioId } }
+    { query: { enabled: !!usuarioId && eventoId !== undefined } }
   )
 
   useEffect(() => {
